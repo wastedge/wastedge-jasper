@@ -1,21 +1,3 @@
-/****
- * 
- * Copyright 2013-2016 Wedjaa <http://www.wedjaa.net/>
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- *    http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- *
- */
-
 package com.wastedge.api.jasper.server;
 
 import java.util.ArrayList;
@@ -58,24 +40,24 @@ public class MRDatasourceWE extends MRDatasourceCustom {
 	public static ResourceDescriptor createDescriptor(ANode parent) {
 		ResourceDescriptor rd = MRDatasourceCustom.createDescriptor(parent);
 		ResourceProperty rp = new ResourceProperty(MRDatasourceCustom.PROP_DATASOURCE_CUSTOM_PROPERTY_MAP);
-		
+
 		List<ResourceProperty> props = new ArrayList<ResourceProperty>();
-		
+
 		// Connection Parameters
-		props.add(new ResourceProperty(WEAdapterService.ES_HOST_PARAM,  ""));
-		props.add(new ResourceProperty(WEAdapterService.ES_COMPANY_PARAM,  ""));
+		props.add(new ResourceProperty(WEAdapterService.ES_HOST_PARAM, ""));
+		props.add(new ResourceProperty(WEAdapterService.ES_COMPANY_PARAM, ""));
 		// Authentication Parameters
-		props.add(new ResourceProperty(WEAdapterService.ES_USER_PARAM,  ""));
-		props.add(new ResourceProperty(WEAdapterService.ES_PASSWORD_PARAM,  ""));
-		
+		props.add(new ResourceProperty(WEAdapterService.ES_USER_PARAM, ""));
+		props.add(new ResourceProperty(WEAdapterService.ES_PASSWORD_PARAM, ""));
+
 		props.add(new ResourceProperty("_cds_name", "WEDataSource"));
 		rp.setProperties(props);
 		rd.setResourceProperty(rp);
-		
+
 		rp = new ResourceProperty(ResourceDescriptor.PROP_DATASOURCE_CUSTOM_SERVICE_CLASS, CUSTOM_CLASS);
 		rd.setResourceProperty(rp);
 		rd.setResourceProperty(DiffFields.DATASOURCENAME, "WEDataSource");
-		
+
 		return rd;
 	}
 }

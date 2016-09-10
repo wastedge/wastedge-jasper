@@ -12,15 +12,15 @@ public class WECreator implements IDataAdapterCreator {
 	@Override
 	public DataAdapterDescriptor buildFromXML(Document docXML) {
 		WEAdapterImplementation result = new WEAdapterImplementation();
-		
+
 		NamedNodeMap rootAttributes = docXML.getChildNodes().item(0).getAttributes();
 		String connectionName = rootAttributes.getNamedItem("name").getTextContent();
 		result.setName(connectionName);
-		
+
 		NodeList children = docXML.getChildNodes().item(0).getChildNodes();
-		for(int i=0; i<children.getLength(); i++){
+		for (int i = 0; i < children.getLength(); i++) {
 			Node node = children.item(i);
-			if (node.getNodeName().equals("connectionParameter")){
+			if (node.getNodeName().equals("connectionParameter")) {
 				switch (node.getAttributes().getNamedItem("name").getTextContent()) {
 				case "wastedgeHost":
 					result.setWastedgeHost(node.getTextContent());
@@ -29,18 +29,18 @@ public class WECreator implements IDataAdapterCreator {
 					result.setWastedgeCompany(node.getTextContent());
 					break;
 				case "wastedgeUsername":
-			    	result.setWastedgeUsername(node.getTextContent());
-			    	break;
+					result.setWastedgeUsername(node.getTextContent());
+					break;
 				case "wastedgePassword":
-			    	result.setWastedgePassword(node.getTextContent());
-			    	break;
-			    }
+					result.setWastedgePassword(node.getTextContent());
+					break;
+				}
 			}
 		}
 
 		WEAdapterDescriptor desc = new WEAdapterDescriptor();
 		desc.setDataAdapter(result);
-		
+
 		return desc;
 	}
 

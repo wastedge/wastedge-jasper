@@ -28,13 +28,11 @@ public class WEQueryExecuter extends JRAbstractQueryExecuter {
 
 	private static Logger logger = Logger.getLogger(WEQueryExecuter.class);
 
-	public WEQueryExecuter(JasperReportsContext jasperReportsContext, JRDataset dataset,
-			Map<String, ? extends JRValueParameter> parameters) throws JRException {
+	public WEQueryExecuter(JasperReportsContext jasperReportsContext, JRDataset dataset, Map<String, ? extends JRValueParameter> parameters) throws JRException {
 		this(jasperReportsContext, dataset, parameters, false);
 	}
 
-	public WEQueryExecuter(JasperReportsContext jasperReportsContext, JRDataset dataset,
-			Map<String, ? extends JRValueParameter> parameters, boolean directParameters) {
+	public WEQueryExecuter(JasperReportsContext jasperReportsContext, JRDataset dataset, Map<String, ? extends JRValueParameter> parameters, boolean directParameters) {
 		super(jasperReportsContext, dataset, parameters);
 
 		if (logger.isDebugEnabled() && parameters.get(JRFillParameter.JASPER_REPORT) != null) {
@@ -87,8 +85,7 @@ public class WEQueryExecuter extends JRAbstractQueryExecuter {
 
 	@Override
 	public JRDataSource createDatasource() throws JRException {
-		WEConnection connection = (WEConnection)((Map<?, ?>)getParameterValue(JRParameter.REPORT_PARAMETERS_MAP))
-				.get(JRParameter.REPORT_CONNECTION);
+		WEConnection connection = (WEConnection)((Map<?, ?>)getParameterValue(JRParameter.REPORT_PARAMETERS_MAP)).get(JRParameter.REPORT_CONNECTION);
 		if (connection == null) {
 			connection = processConnection(reportParameters.get(JRParameter.REPORT_CONNECTION));
 			if (connection == null) {
@@ -163,8 +160,7 @@ public class WEQueryExecuter extends JRAbstractQueryExecuter {
 		try {
 			return super.getParameterValue(parameterName, ignoreMissing);
 		} catch (Exception e) {
-			if (e.getMessage().endsWith("cannot be cast to net.sf.jasperreports.engine.JRValueParameter")
-					&& directParameters) {
+			if (e.getMessage().endsWith("cannot be cast to net.sf.jasperreports.engine.JRValueParameter") && directParameters) {
 				return reportParameters.get(parameterName);
 			}
 		}

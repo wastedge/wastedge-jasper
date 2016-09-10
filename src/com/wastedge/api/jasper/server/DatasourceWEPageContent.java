@@ -73,15 +73,14 @@ public class DatasourceWEPageContent extends APageContent {
 		passwordField = createTextField(composite, true);
 
 		rebind();
-		
+
 		return composite;
 	}
 
 	@Override
 	protected void rebind() {
 
-		ResourceProperty resprop = ResourceDescriptorUtil
-				.getProperty(MRDatasourceCustom.PROP_DATASOURCE_CUSTOM_PROPERTY_MAP, res.getValue().getProperties());
+		ResourceProperty resprop = ResourceDescriptorUtil.getProperty(MRDatasourceCustom.PROP_DATASOURCE_CUSTOM_PROPERTY_MAP, res.getValue().getProperties());
 
 		ResourceProperty rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.ES_HOST_PARAM, resprop.getProperties());
 		rsp.setValue(Misc.nvl(rsp.getValue()));

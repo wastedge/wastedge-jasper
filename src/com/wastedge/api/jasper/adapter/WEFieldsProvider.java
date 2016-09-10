@@ -1,21 +1,3 @@
-/****
- * 
- * Copyright 2013-2014 Wedjaa <http://www.wedjaa.net/>
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- *    http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- *
- */
-
 package com.wastedge.api.jasper.adapter;
 
 import com.jaspersoft.studio.data.fields.IFieldsProvider;
@@ -35,11 +17,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.design.JRDesignField;
 
-/**
- *
- * @author Fabio Torchetti
- */
-
 public class WEFieldsProvider implements IFieldsProvider {
 
 	private static Logger logger = Logger.getLogger(WEFieldsProvider.class);
@@ -48,8 +25,7 @@ public class WEFieldsProvider implements IFieldsProvider {
 		return true;
 	}
 
-	public List<JRDesignField> getFields(DataAdapterService dataAdapterService,
-			JasperReportsConfiguration jasperReportsConfiguration, JRDataset dataset)
+	public List<JRDesignField> getFields(DataAdapterService dataAdapterService, JasperReportsConfiguration jasperReportsConfiguration, JRDataset dataset)
 			throws JRException, UnsupportedOperationException {
 
 		logger.debug("Was asked to provide a list of fields.");
@@ -59,8 +35,8 @@ public class WEFieldsProvider implements IFieldsProvider {
 		dataAdapterService.contributeParameters(parameters);
 		ParameterUtil.setParameters(jasperReportsConfiguration, dataset, parameters);
 		logger.debug("Getting fields for query: " + dataset.getQuery().getText());
-		return com.wastedge.api.jasper.datasource.WEFieldsProvider.getInstance().getFields(jasperReportsConfiguration,
-				dataset, parameters, (WEConnection)parameters.get(JRParameter.REPORT_CONNECTION));
+		return com.wastedge.api.jasper.datasource.WEFieldsProvider.getInstance().getFields(jasperReportsConfiguration, dataset, parameters,
+				(WEConnection)parameters.get(JRParameter.REPORT_CONNECTION));
 	}
 
 }

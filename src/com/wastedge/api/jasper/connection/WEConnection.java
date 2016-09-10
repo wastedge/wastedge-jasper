@@ -7,34 +7,34 @@ public class WEConnection {
 	private final String company;
 	private final String username;
 	private final String password;
-	
+
 	public WEConnection(String host, String company, String username, String password) {
 		this.host = host;
 		this.company = company;
 		this.username = username;
 		this.password = password;
 	}
-	
+
 	public String getHost() {
 		return host;
 	}
-	
+
 	public String getCompany() {
 		return company;
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}
-	
+
 	public WEConnection clone() {
 		return new WEConnection(host, company, username, password);
 	}
-	
+
 	public void test() {
 		// TODO: Implement
 	}
@@ -69,6 +69,6 @@ public class WEConnection {
 
 	public void setSearch(String query) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

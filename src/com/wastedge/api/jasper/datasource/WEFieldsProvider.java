@@ -40,8 +40,7 @@ public class WEFieldsProvider {
 		}
 	}
 
-	public List<JRDesignField> getFields(JasperReportsContext context, JRDataset dataset,
-			Map<String, Object> parameters, WEConnection connection) throws JRException {
+	public List<JRDesignField> getFields(JasperReportsContext context, JRDataset dataset, Map<String, Object> parameters, WEConnection connection) throws JRException {
 		logger.debug("Providing fields a query.");
 
 		String query = "{ query: { match_all: {} } }";

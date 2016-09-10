@@ -1,21 +1,3 @@
-/****
- * 
- * Copyright 2013-2014 Wedjaa <http://www.wedjaa.net/>
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- *    http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- *
- */
-
 package com.wastedge.api.jasper.adapter;
 
 import java.util.List;
@@ -40,10 +22,6 @@ import com.jaspersoft.studio.data.fields.IFieldsProvider;
 import com.jaspersoft.studio.data.ui.WizardQueryEditorComposite;
 import com.jaspersoft.studio.utils.jasper.JasperReportsConfiguration;
 
-/**
- *
- * @author Fabio Torchetti
- */
 public class WEAdapterDescriptor extends DataAdapterDescriptor implements IFieldsProvider, IWizardDataEditorProvider {
 
 	public static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
@@ -58,7 +36,7 @@ public class WEAdapterDescriptor extends DataAdapterDescriptor implements IField
 		if (dataAdapter == null)
 			dataAdapter = new WEAdapterImplementation();
 
-		return (WEAdapter) dataAdapter;
+		return (WEAdapter)dataAdapter;
 	}
 
 	@Override
@@ -89,8 +67,7 @@ public class WEAdapterDescriptor extends DataAdapterDescriptor implements IField
 
 	}
 
-	public List<JRDesignField> getFields(DataAdapterService con, JasperReportsConfiguration jConfig,
-			JRDataset reportDataset) throws JRException, UnsupportedOperationException {
+	public List<JRDesignField> getFields(DataAdapterService con, JasperReportsConfiguration jConfig, JRDataset reportDataset) throws JRException, UnsupportedOperationException {
 		getFieldProvider();
 		return fieldsProvider.getFields(con, jConfig, reportDataset);
 	}

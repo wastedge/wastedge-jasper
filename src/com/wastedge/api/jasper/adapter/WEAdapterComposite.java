@@ -1,21 +1,3 @@
-/****
- * 
- * Copyright 2013-2014 Wedjaa <http://www.wedjaa.net/>
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- *    http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- *
- */ 
-
 package com.wastedge.api.jasper.adapter;
 
 import com.jaspersoft.studio.data.ADataAdapterComposite;
@@ -43,10 +25,10 @@ public class WEAdapterComposite extends ADataAdapterComposite {
 	private Text weTypesField;
 	private Text weUsernameField;
 	private Text wePasswordField;
-	
+
 	public WEAdapterComposite(Composite parent, int style, JasperReportsContext jrContext) {
 		super(parent, style, jrContext);
-		
+
 		initComponents();
 	}
 
@@ -55,7 +37,7 @@ public class WEAdapterComposite extends ADataAdapterComposite {
 		createLabel("Indexes - comma separated");
 		weIndexesField = createTextField(false);
 		createLabel("Types - comma separated");
-		weTypesField = createTextField(false);                
+		weTypesField = createTextField(false);
 		createLabel("Hostname");
 		weHostField = createTextField(false);
 		createLabel("Port");
@@ -65,8 +47,8 @@ public class WEAdapterComposite extends ADataAdapterComposite {
 		createLabel("Username");
 		weUsernameField = createTextField(false);
 		createLabel("Password");
-		wePasswordField = createTextField(true);               
-                
+		wePasswordField = createTextField(true);
+
 	}
 
 	private void createLabel(String text) {
@@ -80,7 +62,7 @@ public class WEAdapterComposite extends ADataAdapterComposite {
 		textField.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		return textField;
 	}
-	
+
 	public DataAdapterDescriptor getDataAdapter() {
 		if (dataAdapterDescriptor == null) {
 			dataAdapterDescriptor = new WEAdapterDescriptor();
@@ -92,8 +74,8 @@ public class WEAdapterComposite extends ADataAdapterComposite {
 	public void setDataAdapter(DataAdapterDescriptor dataAdapterDescriptor) {
 		super.setDataAdapter(dataAdapterDescriptor);
 
-		this.dataAdapterDescriptor = (WEAdapterDescriptor) dataAdapterDescriptor;
-		WEAdapter dataAdapter = (WEAdapter) dataAdapterDescriptor.getDataAdapter();
+		this.dataAdapterDescriptor = (WEAdapterDescriptor)dataAdapterDescriptor;
+		WEAdapter dataAdapter = (WEAdapter)dataAdapterDescriptor.getDataAdapter();
 		bindWidgets(dataAdapter);
 	}
 
@@ -112,6 +94,5 @@ public class WEAdapterComposite extends ADataAdapterComposite {
 	public String getHelpContextId() {
 		return PREFIX.concat("adapter_elasticsearch");
 	}
-
 
 }
