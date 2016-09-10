@@ -23,7 +23,7 @@ import java.util.List;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.wedjaa.elasticparser.ESSearch;
-import com.wastedge.api.jasper.adapter.ESAdapterService;
+import com.wastedge.api.jasper.adapter.WEAdapterService;
 import com.wastedge.api.jasper.datasource.WEIconDescriptor;
 
 import com.jaspersoft.jasperserver.api.metadata.xml.domain.impl.ResourceDescriptor;
@@ -60,17 +60,17 @@ public class MRDatasourceWE extends MRDatasourceCustom {
 		ResourceProperty rp = new ResourceProperty(MRDatasourceCustom.PROP_DATASOURCE_CUSTOM_PROPERTY_MAP);
 		List<ResourceProperty> props = new ArrayList<ResourceProperty>();
 		// Index and Type Parameters
-		props.add(new ResourceProperty(ESAdapterService.ES_INDEX_PARAM,  ""));
-		props.add(new ResourceProperty(ESAdapterService.ES_TYPE_PARAM,  ""));
+		props.add(new ResourceProperty(WEAdapterService.ES_INDEX_PARAM,  ""));
+		props.add(new ResourceProperty(WEAdapterService.ES_TYPE_PARAM,  ""));
 		// Connection Parameters
-		props.add(new ResourceProperty(ESAdapterService.ES_HOST_PARAM,  ESSearch.ES_DEFAULT_HOST));
-		props.add(new ResourceProperty(ESAdapterService.ES_PORT_PARAM,  Integer.toString(ESSearch.ES_DEFAULT_PORT)));
-		props.add(new ResourceProperty(ESAdapterService.ES_CLUSTER_PARAM,  ESSearch.ES_DEFAULT_CLUSTER));
+		props.add(new ResourceProperty(WEAdapterService.ES_HOST_PARAM,  ESSearch.ES_DEFAULT_HOST));
+		props.add(new ResourceProperty(WEAdapterService.ES_PORT_PARAM,  Integer.toString(ESSearch.ES_DEFAULT_PORT)));
+		props.add(new ResourceProperty(WEAdapterService.ES_CLUSTER_PARAM,  ESSearch.ES_DEFAULT_CLUSTER));
 		// Authentication Parameters
-		props.add(new ResourceProperty(ESAdapterService.ES_USER_PARAM,  ""));
-		props.add(new ResourceProperty(ESAdapterService.ES_PASSWORD_PARAM,  ""));
+		props.add(new ResourceProperty(WEAdapterService.ES_USER_PARAM,  ""));
+		props.add(new ResourceProperty(WEAdapterService.ES_PASSWORD_PARAM,  ""));
 		// Search Type
-		props.add(new ResourceProperty(ESAdapterService.ES_MODE_PARAM,  "0"));
+		props.add(new ResourceProperty(WEAdapterService.ES_MODE_PARAM,  "0"));
 		
 		props.add(new ResourceProperty("_cds_name", "ESDataSource"));
 		rp.setProperties(props);

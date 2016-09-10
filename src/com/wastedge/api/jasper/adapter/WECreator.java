@@ -36,7 +36,7 @@ public class WECreator implements IDataAdapterCreator {
 	@Override
 	public DataAdapterDescriptor buildFromXML(Document docXML) {
 		
-		ESAdapterImplementation result = new ESAdapterImplementation();
+		WEAdapterImplementation result = new WEAdapterImplementation();
 		
 		NamedNodeMap rootAttributes = docXML.getChildNodes().item(0).getAttributes();
 		String connectionName = rootAttributes.getNamedItem("name").getTextContent();

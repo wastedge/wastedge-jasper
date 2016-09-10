@@ -39,7 +39,7 @@ import com.jaspersoft.studio.server.wizard.resource.APageContent;
 import com.jaspersoft.studio.utils.Misc;
 
 import net.wedjaa.elasticparser.ESSearch;
-import com.wastedge.api.jasper.adapter.ESAdapterService;
+import com.wastedge.api.jasper.adapter.WEAdapterService;
 
 
 @SuppressWarnings("deprecation")
@@ -124,43 +124,43 @@ public class DatasourceWEPageContent extends APageContent {
 		ResourceProperty resprop = ResourceDescriptorUtil
 				.getProperty(MRDatasourceCustom.PROP_DATASOURCE_CUSTOM_PROPERTY_MAP, res.getValue().getProperties());
 
-		ResourceProperty rsp = ResourceDescriptorUtil.getProperty(ESAdapterService.ES_INDEX_PARAM,
+		ResourceProperty rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.ES_INDEX_PARAM,
 				resprop.getProperties());
 		rsp.setValue(Misc.nvl(rsp.getValue()));		
 		bindingContext.bindValue(SWTObservables.observeText(esIndexesField, SWT.Modify),
 				PojoObservables.observeValue(rsp, "value"));
 
-		rsp = ResourceDescriptorUtil.getProperty(ESAdapterService.ES_TYPE_PARAM, resprop.getProperties());
+		rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.ES_TYPE_PARAM, resprop.getProperties());
 		rsp.setValue(Misc.nvl(rsp.getValue()));
 		bindingContext.bindValue(SWTObservables.observeText(esTypesField, SWT.Modify),
 				PojoObservables.observeValue(rsp, "value"));
 
-		rsp = ResourceDescriptorUtil.getProperty(ESAdapterService.ES_HOST_PARAM, resprop.getProperties());
+		rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.ES_HOST_PARAM, resprop.getProperties());
 		rsp.setValue(Misc.nvl(rsp.getValue()));
 		bindingContext.bindValue(SWTObservables.observeText(esHostField, SWT.Modify),
 				PojoObservables.observeValue(rsp, "value"));
 
-		rsp = ResourceDescriptorUtil.getProperty(ESAdapterService.ES_PORT_PARAM, resprop.getProperties());
+		rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.ES_PORT_PARAM, resprop.getProperties());
 		rsp.setValue(Misc.nvl(rsp.getValue()));
 		bindingContext.bindValue(SWTObservables.observeText(esPortField, SWT.Modify),
 				PojoObservables.observeValue(rsp, "value"));
 
-		rsp = ResourceDescriptorUtil.getProperty(ESAdapterService.ES_CLUSTER_PARAM, resprop.getProperties());
+		rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.ES_CLUSTER_PARAM, resprop.getProperties());
 		rsp.setValue(Misc.nvl(rsp.getValue()));
 		bindingContext.bindValue(SWTObservables.observeText(esClusterField, SWT.Modify),
 				PojoObservables.observeValue(rsp, "value"));
 
-		rsp = ResourceDescriptorUtil.getProperty(ESAdapterService.ES_USER_PARAM, resprop.getProperties());
+		rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.ES_USER_PARAM, resprop.getProperties());
 		rsp.setValue(Misc.nvl(rsp.getValue()));
 		bindingContext.bindValue(SWTObservables.observeText(esUsernameField, SWT.Modify),
 				PojoObservables.observeValue(rsp, "value"));
 
-		rsp = ResourceDescriptorUtil.getProperty(ESAdapterService.ES_PASSWORD_PARAM, resprop.getProperties());
+		rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.ES_PASSWORD_PARAM, resprop.getProperties());
 		rsp.setValue(Misc.nvl(rsp.getValue()));
 		bindingContext.bindValue(SWTObservables.observeText(esPasswordField, SWT.Modify),
 				PojoObservables.observeValue(rsp, "value"));
 
-		rsp = ResourceDescriptorUtil.getProperty(ESAdapterService.ES_MODE_PARAM, resprop.getProperties());
+		rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.ES_MODE_PARAM, resprop.getProperties());
 		rsp.setValue(Misc.nvl(rsp.getValue()));
 		bindingContext.bindValue(SWTObservables.observeSingleSelectionIndex(esSearchModeField),
 				PojoObservables.observeValue(rsp, "value"));

@@ -68,8 +68,8 @@ public class WEAdapterFactory implements DataAdapterFactory {
      * com.jaspersoft.studio.data.DataAdapterFactory#getDataAdapterClassName()
      */
     public String getDataAdapterClassName() {
-    	logger.debug("Returning " + ESAdapterImplementation.class.getName() + " as adapter class name");
-        return ESAdapterImplementation.class.getName();
+    	logger.debug("Returning " + WEAdapterImplementation.class.getName() + " as adapter class name");
+        return WEAdapterImplementation.class.getName();
     }
 
     /*
@@ -110,8 +110,8 @@ public class WEAdapterFactory implements DataAdapterFactory {
 	public DataAdapterService createDataAdapterService(
 			JasperReportsContext jasperReportsContext, DataAdapter dataAdapter) {
         logger.info("Returning a service for data adapter: " + dataAdapter.getClass().getName());
-        if (dataAdapter instanceof ESAdapter)
-            return new ESAdapterService(jasperReportsContext, (ESAdapter) dataAdapter);
+        if (dataAdapter instanceof WEAdapter)
+            return new WEAdapterService(jasperReportsContext, (WEAdapter) dataAdapter);
         logger.info("Returning null, I don't know what the are talking about!");
         return null;
 	}

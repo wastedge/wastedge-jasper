@@ -26,7 +26,7 @@ import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.design.JRDesignField;
 import com.wastedge.api.jasper.Activator;
-import com.wastedge.api.jasper.datasource.ESDataSource;
+import com.wastedge.api.jasper.datasource.WEDataSource;
 
 import org.apache.log4j.Logger;
 import org.eclipse.jface.wizard.WizardPage;
@@ -53,12 +53,12 @@ public class WEAdapterDescriptor extends DataAdapterDescriptor implements IField
 	private IFieldsProvider fieldsProvider;
 
 	@Override
-	public ESAdapter getDataAdapter() {
+	public WEAdapter getDataAdapter() {
 
 		if (dataAdapter == null)
-			dataAdapter = new ESAdapterImplementation();
+			dataAdapter = new WEAdapterImplementation();
 
-		return (ESAdapter) dataAdapter;
+		return (WEAdapter) dataAdapter;
 	}
 
 	@Override
@@ -107,7 +107,7 @@ public class WEAdapterDescriptor extends DataAdapterDescriptor implements IField
 
 	@Override
 	public AWizardDataEditorComposite createDataEditorComposite(Composite parent, WizardPage page) {
-		return new WizardQueryEditorComposite(parent, page, this, ESDataSource.QUERY_LANGUAGE);
+		return new WizardQueryEditorComposite(parent, page, this, WEDataSource.QUERY_LANGUAGE);
 	}
 
 }
