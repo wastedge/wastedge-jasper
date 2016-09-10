@@ -5,15 +5,15 @@ import org.apache.log4j.Logger;
 import com.wastedge.api.jasper.adapter.WEAdapter;
 import net.sf.jasperreports.data.AbstractDataAdapter;
 
-public class WEAdapterImplementation extends AbstractDataAdapter implements WEAdapter {
-	private static final Logger logger = Logger.getLogger(WEAdapterImplementation.class);
+public class WEAdapterImpl extends AbstractDataAdapter implements WEAdapter {
+	private static final Logger logger = Logger.getLogger(WEAdapterImpl.class);
 
 	private String wastedgeHost;
 	private String wastedgeCompany;
 	private String wastedgeUsername;
 	private String wastedgePassword;
 
-	public WEAdapterImplementation() {
+	public WEAdapterImpl() {
 		logger.debug("Providing our implementation of DataAdapter");
 	}
 

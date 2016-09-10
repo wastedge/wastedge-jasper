@@ -11,7 +11,7 @@ import org.w3c.dom.NodeList;
 public class WECreator implements IDataAdapterCreator {
 	@Override
 	public DataAdapterDescriptor buildFromXML(Document docXML) {
-		WEAdapterImplementation result = new WEAdapterImplementation();
+		WEAdapterImpl result = new WEAdapterImpl();
 
 		NamedNodeMap rootAttributes = docXML.getChildNodes().item(0).getAttributes();
 		String connectionName = rootAttributes.getNamedItem("name").getTextContent();

@@ -31,7 +31,7 @@ public class WEAdapterDescriptor extends DataAdapterDescriptor implements IField
 	@Override
 	public WEAdapter getDataAdapter() {
 		if (dataAdapter == null) {
-			dataAdapter = new WEAdapterImplementation();
+			dataAdapter = new WEAdapterImpl();
 		}
 
 		return (WEAdapter)dataAdapter;

@@ -39,8 +39,8 @@ public class WEAdapterFactory implements DataAdapterFactory {
 	 * com.jaspersoft.studio.data.DataAdapterFactory#getDataAdapterClassName()
 	 */
 	public String getDataAdapterClassName() {
-		logger.debug("Returning " + WEAdapterImplementation.class.getName() + " as adapter class name");
-		return WEAdapterImplementation.class.getName();
+		logger.debug("Returning " + WEAdapterImpl.class.getName() + " as adapter class name");
+		return WEAdapterImpl.class.getName();
 	}
 
 	/*
