@@ -3,19 +3,19 @@
 <plugin>
    <extension
          point="com.jaspersoft.studio.dataAdapters">					    
-         <dataAdapter ClassFactory="net.wedjaa.jasper.elasticsearch.adapter.ESAdapterFactory"/>
+         <dataAdapter ClassFactory="com.wastedge.api.jasper.adapter.WEAdapterFactory"/>
    </extension>
    <extension
          point="com.jaspersoft.studio.queryDesigner">
                <queryDesigner
-            QueryDesignerClass="net.wedjaa.jasper.elasticsearch.query.ESQueryDesigner"
+            QueryDesignerClass="com.wastedge.api.jasper.query.WEQueryDesigner"
             language="elasticsearch">
       </queryDesigner>
    </extension>
       <extension
          point="com.jaspersoft.studio.server.resources">
       <resource
-            ClassFactory="net.wedjaa.jasper.elasticsearch.server.ESResourceFactory">
+            ClassFactory="com.wastedge.api.jasper.server.WEResourceFactory">
       </resource>
    </extension>
 </plugin>

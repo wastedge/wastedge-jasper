@@ -1,22 +1,21 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ElasticSearchPlugin
-Bundle-SymbolicName: net.wedjaa.jasper.elasticsearch;singleton:=true
-Bundle-Version: 2.3.0.qualifier
-Bundle-Activator: net.wedjaa.jasper.elasticsearch.Activator
-Bundle-Vendor: Wedjaa Inc
+Bundle-Name: WastedgePlugin
+Bundle-SymbolicName: com.wastedge.api.jasper;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.wastedge.api.jasper.Activator
+Bundle-Vendor: Wastedge.com
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
-Export-Package: net.wedjaa.jasper.elasticsearch,
- net.wedjaa.jasper.elasticsearch.adapter,
- net.wedjaa.jasper.elasticsearch.datasource,
- net.wedjaa.jasper.elasticsearch.query
+Export-Package: com.wastedge.api.jasper,
+ com.wastedge.api.jasper.adapter,
+ com.wastedge.api.jasper.datasource,
+ com.wastedge.api.jasper.query
 Eclipse-RegisterBuddy: com.jaspersoft.studio.data
 Bundle-ClassPath: .,
  lib/parser-2.3.0.jar,
  lib/jr-es-adapter-2.3.0.jar
-Require-Bundle: es-osgi-bundle;bundle-version="2.2.1",
- org.eclipse.core.databinding.property;bundle-version="1.5.0",
+Require-Bundle: org.eclipse.core.databinding.property;bundle-version="1.5.0",
  net.sf.jasperreports;bundle-version="6.3.0",
  com.jaspersoft.studio;bundle-version="6.3.0",
  com.jaspersoft.studio.properties;bundle-version="6.3.0",
