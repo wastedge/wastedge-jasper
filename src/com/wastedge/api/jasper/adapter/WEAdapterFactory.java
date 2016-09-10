@@ -1,21 +1,3 @@
-/****
- * 
- * Copyright 2013-2014 Wedjaa <http://www.wedjaa.net/>
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- *    http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- *
- */
-
 package com.wastedge.api.jasper.adapter;
 
 import com.jaspersoft.studio.data.DataAdapterDescriptor;
@@ -30,13 +12,8 @@ import com.wastedge.api.jasper.Activator;
 import org.eclipse.swt.graphics.Image;
 import org.apache.log4j.*;
 
-/**
- *
- * @author Fabio Torchetti
- */
 public class WEAdapterFactory implements DataAdapterFactory {
-
-	private static Logger logger = Logger.getLogger(WEAdapterFactory.class);
+	private static final Logger logger = Logger.getLogger(WEAdapterFactory.class);
 	
     /*
      * (non-Javadoc)
@@ -46,20 +23,15 @@ public class WEAdapterFactory implements DataAdapterFactory {
     public DataAdapterDescriptor createDataAdapter() {
 
         WEAdapterDescriptor descriptor = new WEAdapterDescriptor();
-        descriptor.getDataAdapter().setElasticSearchIndexes("");
-        descriptor.getDataAdapter().setElasticSearchTypes("");
-        descriptor.getDataAdapter().setElasticSearchHost("localhost");
-        descriptor.getDataAdapter().setElasticSearchPort("9300");
-        descriptor.getDataAdapter().setElasticSearchCluster("elasticsearch");
-        descriptor.getDataAdapter().setElasticSearchUsername(null);
-        descriptor.getDataAdapter().setElasticSearchPassword(null);
-        descriptor.getDataAdapter().setElasticSearchMode("0");
-        logger.info("Returning an ESAdapterDescriptor");
+        descriptor.getDataAdapter().setWastedgeCompany("");
+        descriptor.getDataAdapter().setWastedgeHost("");
+        descriptor.getDataAdapter().setWastedgeUsername(null);
+        descriptor.getDataAdapter().setWastedgePassword(null);
+        
+        logger.info("Returning an WEAdapterDescriptor");
         
         return descriptor;
-        
     }
-
 
     /*
      * (non-Javadoc)
@@ -79,7 +51,7 @@ public class WEAdapterFactory implements DataAdapterFactory {
      */
     public String getLabel() {
     	logger.info("Returning our label");
-        return "ElasticSearch DataSource";
+        return "Wastedge DataSource";
     }
 
     /*
@@ -89,7 +61,7 @@ public class WEAdapterFactory implements DataAdapterFactory {
      */
     public String getDescription() {
     	logger.info("Returning our description");
-        return "Makes possible to retrieve data from ElasticSearch";
+        return "Makes possible to retrieve data from Wastedge";
     }
 
     /*
@@ -107,11 +79,11 @@ public class WEAdapterFactory implements DataAdapterFactory {
 
     
 	@Override
-	public DataAdapterService createDataAdapterService(
-			JasperReportsContext jasperReportsContext, DataAdapter dataAdapter) {
+	public DataAdapterService createDataAdapterService(JasperReportsContext jasperReportsContext, DataAdapter dataAdapter) {
         logger.info("Returning a service for data adapter: " + dataAdapter.getClass().getName());
-        if (dataAdapter instanceof WEAdapter)
+        if (dataAdapter instanceof WEAdapter) {
             return new WEAdapterService(jasperReportsContext, (WEAdapter) dataAdapter);
+        }
         logger.info("Returning null, I don't know what the are talking about!");
         return null;
 	}
@@ -119,8 +91,8 @@ public class WEAdapterFactory implements DataAdapterFactory {
 	
     @Override
     public IDataAdapterCreator iReportConverter() {
-            logger.info("Returning an elasticsearch creator!");
-            return new WECreator();
+        logger.info("Returning an Wastedge creator!");
+        return new WECreator();
     }
     
     @Override
@@ -128,6 +100,4 @@ public class WEAdapterFactory implements DataAdapterFactory {
         logger.info("Returning false to isDeprecated");
     	return false;
     }
-
-
 }

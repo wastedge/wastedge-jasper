@@ -32,7 +32,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Combo;
 
 @SuppressWarnings("deprecation")
 public class WEAdapterComposite extends ADataAdapterComposite {
@@ -107,7 +106,6 @@ public class WEAdapterComposite extends ADataAdapterComposite {
 		bindingContext.bindValue(SWTObservables.observeText(weTypesField, SWT.Modify), PojoObservables.observeValue(dataAdapter, "elasticSearchTypes"));
 		bindingContext.bindValue(SWTObservables.observeText(weUsernameField, SWT.Modify), PojoObservables.observeValue(dataAdapter, "elasticSearchUsername"));
 		bindingContext.bindValue(SWTObservables.observeText(wePasswordField, SWT.Modify), PojoObservables.observeValue(dataAdapter, "elasticSearchPassword"));
-		bindingContext.bindValue(SWTObservables.observeSingleSelectionIndex(esSearchModeField), PojoObservables.observeValue(dataAdapter, "elasticSearchMode"));		
 	}
 
 	@Override

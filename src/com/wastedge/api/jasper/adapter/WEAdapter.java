@@ -1,62 +1,21 @@
-
-/****
- * 
- * Copyright 2013-2016 Wedjaa <http://www.wedjaa.net/>
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- *    http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- *
- */
-
 package com.wastedge.api.jasper.adapter;
 
 import net.sf.jasperreports.data.DataAdapter;
 
-/**
- *
- * @author Fabio Torchetti
- */
 public interface WEAdapter extends DataAdapter {
+    public void setWastedgeHost(String host);
 
-    public void setElasticSearchHost(String esHost);
+    public String getWastedgeHost();
 
-    public String getElasticSearchHost();
+    public void setWastedgeCompany(String company);
 
-    public void setElasticSearchPort(String esPort);
+    public String getWastedgeCompany();
 
-    public String getElasticSearchPort();
+    public void setWastedgeUsername(String username);
 
-    public void setElasticSearchPassword(String esPassword);
+    public String getWastedgeUsername();
 
-    public String getElasticSearchPassword();
+    public void setWastedgePassword(String password);
 
-    public void setElasticSearchUsername(String esUsername);
-
-    public String getElasticSearchUsername();
-
-    public void setElasticSearchIndexes(String esIndexes);
-
-    public String getElasticSearchIndexes();
-
-    public void setElasticSearchTypes(String esTypes);
-
-    public String getElasticSearchTypes();
-    
-    public void setElasticSearchCluster(String esCluster);
-    
-    public String getElasticSearchCluster();
-    
-    public String getElasticSearchMode();
-    
-    public void setElasticSearchMode(String searchMode);
-    
+    public String getWastedgePassword();
 }

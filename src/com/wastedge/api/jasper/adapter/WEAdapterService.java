@@ -22,11 +22,12 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.wastedge.api.jasper.connection.WEConnection;
+
 import net.sf.jasperreports.data.AbstractDataAdapterService;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.wedjaa.elasticparser.ESSearch;
 
 /**
  *
@@ -34,16 +35,12 @@ import net.wedjaa.elasticparser.ESSearch;
  */
 public class WEAdapterService extends AbstractDataAdapterService {
     
-	public final static String ES_HOST_PARAM = "elasticSearchHost";
-	public final static String ES_PORT_PARAM = "elasticSearchPort";
-	public final static String ES_CLUSTER_PARAM = "elasticSearchCluster";
-	public final static String ES_USER_PARAM = "elasticSearchUsername";
-	public final static String ES_PASSWORD_PARAM = "elasticSearchPassword";
-	public final static String ES_INDEX_PARAM = "elasticSearchIndexes";
-	public final static String ES_TYPE_PARAM = "elasticSearchTypes";
-	public final static String ES_MODE_PARAM = "elasticSearchMode";
+	public final static String ES_HOST_PARAM = "wastedgeHost";
+	public final static String ES_COMPANY_PARAM = "wastedgeCompany";
+	public final static String ES_USER_PARAM = "wastedgeUsername";
+	public final static String ES_PASSWORD_PARAM = "wastedgePassword";
 	
-    private ESSearch esSearch;
+    private WEConnection esSearch;
 
     private final WEAdapter dataAdapter;
     private static Logger logger = Logger.getLogger(WEAdapterService.class);
@@ -65,14 +62,10 @@ public class WEAdapterService extends AbstractDataAdapterService {
             try {
                 createESSearch();
                 parameters.put(JRParameter.REPORT_CONNECTION, esSearch);
-                parameters.put(WEAdapterService.ES_HOST_PARAM, dataAdapter.getElasticSearchHost());
-                parameters.put(WEAdapterService.ES_PORT_PARAM, dataAdapter.getElasticSearchPort());
-                parameters.put(WEAdapterService.ES_INDEX_PARAM, dataAdapter.getElasticSearchIndexes());
-                parameters.put(WEAdapterService.ES_MODE_PARAM, dataAdapter.getElasticSearchMode());
-                parameters.put(WEAdapterService.ES_TYPE_PARAM, dataAdapter.getElasticSearchTypes());
-                parameters.put(WEAdapterService.ES_USER_PARAM, dataAdapter.getElasticSearchUsername());
-                parameters.put(WEAdapterService.ES_PASSWORD_PARAM, dataAdapter.getElasticSearchPassword());
-                parameters.put(WEAdapterService.ES_CLUSTER_PARAM, dataAdapter.getElasticSearchCluster());
+                parameters.put(WEAdapterService.ES_HOST_PARAM, dataAdapter.getWastedgeHost());
+                parameters.put(WEAdapterService.ES_COMPANY_PARAM, dataAdapter.getWastedgeCompany());
+                parameters.put(WEAdapterService.ES_USER_PARAM, dataAdapter.getWastedgeUsername());
+                parameters.put(WEAdapterService.ES_PASSWORD_PARAM, dataAdapter.getWastedgePassword());
             } catch (Exception e) {
                 throw new JRException(e);
             }
@@ -80,21 +73,12 @@ public class WEAdapterService extends AbstractDataAdapterService {
     }
 
     private void createESSearch() throws JRException {
-    	
-    	esSearch = new ESSearch(
-    				dataAdapter.getElasticSearchIndexes(),
-    				dataAdapter.getElasticSearchTypes(),
-    				Integer.parseInt(dataAdapter.getElasticSearchMode()),
-    				dataAdapter.getElasticSearchHost(),
-    				Integer.parseInt(dataAdapter.getElasticSearchPort()),
-    				dataAdapter.getElasticSearchUsername(),
-    				dataAdapter.getElasticSearchPassword(),
-    				dataAdapter.getElasticSearchCluster()
-    			);
-    	
-        // Creating a base search - it will be a correct query
-        // once it hits the QueryExecuter.
-        esSearch.setSearch("{ \"query\": { \"match_all\": {} } }");
+    	esSearch = new WEConnection(
+			dataAdapter.getWastedgeHost(),
+			dataAdapter.getWastedgeCompany(),
+			dataAdapter.getWastedgeUsername(),
+			dataAdapter.getWastedgePassword()
+		);
     }
 
     @Override
@@ -108,8 +92,7 @@ public class WEAdapterService extends AbstractDataAdapterService {
     @Override
     public void test() throws JRException {
         try {
-            if (esSearch != null) {
-            } else {
+            if (esSearch == null) {
                 createESSearch();
             }
             esSearch.test();

@@ -13,8 +13,7 @@ Export-Package: com.wastedge.api.jasper,
  com.wastedge.api.jasper.query
 Eclipse-RegisterBuddy: com.jaspersoft.studio.data
 Bundle-ClassPath: .,
- lib/parser-2.3.0.jar,
- lib/jr-es-adapter-2.3.0.jar
+ lib/wastedge-api-jdbc-1.0.jar
 Require-Bundle: org.eclipse.core.databinding.property;bundle-version="1.5.0",
  net.sf.jasperreports;bundle-version="6.3.0",
  com.jaspersoft.studio;bundle-version="6.3.0",

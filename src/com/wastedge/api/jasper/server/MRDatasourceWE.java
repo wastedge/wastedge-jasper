@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRConstants;
-import net.wedjaa.elasticparser.ESSearch;
 import com.wastedge.api.jasper.adapter.WEAdapterService;
 import com.wastedge.api.jasper.datasource.WEIconDescriptor;
 
@@ -35,7 +34,7 @@ import com.jaspersoft.studio.server.protocol.restv2.DiffFields;
 
 public class MRDatasourceWE extends MRDatasourceCustom {
 
-	public static final String CUSTOM_CLASS = "com.wastedge.api.jasper.adapter.ESAdapterService";
+	public static final String CUSTOM_CLASS = "com.wastedge.api.jasper.adapter.WEAdapterService";
 	public static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	public MRDatasourceWE(ANode parent, ResourceDescriptor rd, int index) {
@@ -45,8 +44,9 @@ public class MRDatasourceWE extends MRDatasourceCustom {
 	private static IIconDescriptor iconDescriptor;
 
 	public static IIconDescriptor getIconDescriptor() {
-		if (iconDescriptor == null)
+		if (iconDescriptor == null) {
 			iconDescriptor = new WEIconDescriptor("datasource-wastedge");
+		}
 		return iconDescriptor;
 	}
 
@@ -58,26 +58,24 @@ public class MRDatasourceWE extends MRDatasourceCustom {
 	public static ResourceDescriptor createDescriptor(ANode parent) {
 		ResourceDescriptor rd = MRDatasourceCustom.createDescriptor(parent);
 		ResourceProperty rp = new ResourceProperty(MRDatasourceCustom.PROP_DATASOURCE_CUSTOM_PROPERTY_MAP);
+		
 		List<ResourceProperty> props = new ArrayList<ResourceProperty>();
-		// Index and Type Parameters
-		props.add(new ResourceProperty(WEAdapterService.ES_INDEX_PARAM,  ""));
-		props.add(new ResourceProperty(WEAdapterService.ES_TYPE_PARAM,  ""));
+		
 		// Connection Parameters
-		props.add(new ResourceProperty(WEAdapterService.ES_HOST_PARAM,  ESSearch.ES_DEFAULT_HOST));
-		props.add(new ResourceProperty(WEAdapterService.ES_PORT_PARAM,  Integer.toString(ESSearch.ES_DEFAULT_PORT)));
-		props.add(new ResourceProperty(WEAdapterService.ES_CLUSTER_PARAM,  ESSearch.ES_DEFAULT_CLUSTER));
+		props.add(new ResourceProperty(WEAdapterService.ES_HOST_PARAM,  ""));
+		props.add(new ResourceProperty(WEAdapterService.ES_COMPANY_PARAM,  ""));
 		// Authentication Parameters
 		props.add(new ResourceProperty(WEAdapterService.ES_USER_PARAM,  ""));
 		props.add(new ResourceProperty(WEAdapterService.ES_PASSWORD_PARAM,  ""));
-		// Search Type
-		props.add(new ResourceProperty(WEAdapterService.ES_MODE_PARAM,  "0"));
 		
-		props.add(new ResourceProperty("_cds_name", "ESDataSource"));
+		props.add(new ResourceProperty("_cds_name", "WEDataSource"));
 		rp.setProperties(props);
 		rd.setResourceProperty(rp);
+		
 		rp = new ResourceProperty(ResourceDescriptor.PROP_DATASOURCE_CUSTOM_SERVICE_CLASS, CUSTOM_CLASS);
 		rd.setResourceProperty(rp);
-		rd.setResourceProperty(DiffFields.DATASOURCENAME, "ESDataSource");
+		rd.setResourceProperty(DiffFields.DATASOURCENAME, "WEDataSource");
+		
 		return rd;
 	}
 }

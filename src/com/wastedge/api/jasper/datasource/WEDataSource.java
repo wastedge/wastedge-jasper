@@ -1,49 +1,27 @@
-/****
- * 
- * Copyright 2013-2016 Wedjaa <http://www.wedjaa.net/>
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- *    http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- *
- */
-
 package com.wastedge.api.jasper.datasource;
 
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.wastedge.api.jasper.connection.WEConnection;
+
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
-import net.wedjaa.elasticparser.ESSearch;
 
-/**
- *
- * @author Fabio Torchetti
- */
 public class WEDataSource implements JRDataSource {
-
-    public static String QUERY_LANGUAGE = "elasticsearch";
-    public static String ELASTIC_SEARCH = "es_search";
+    private static final Logger logger = Logger.getLogger(WEDataSource.class);
     
-    private static Logger logger = Logger.getLogger(WEDataSource.class);
+    public static String QUERY_LANGUAGE = "wastedge";
+    public static String WASTEDGE_SEARCH = "we_search";
     
-    ESSearch esSearch = null;
-    Map<String,Object> currentEvent = null;
+    private WEConnection esSearch = null;
+    private Map<String,Object> currentEvent = null;
     
-    public WEDataSource(ESSearch esSearch) {
+    public WEDataSource(WEConnection esSearch) {
         this.esSearch = esSearch;
-        logger.debug("Created a new elasticsearch datasource connected to " + esSearch.getHostname());
+        logger.debug("Created a new elasticsearch datasource connected to " + esSearch.getHost());
         this.esSearch.search();
         logger.debug("Search for " + this.esSearch.getSearch() + " has started....");
     }
@@ -57,7 +35,7 @@ public class WEDataSource implements JRDataSource {
     @Override
     public Object getFieldValue(JRField jrf) throws JRException {
         Object value = currentEvent.get(jrf.getName());
-        if ( value == null ) {
+        if (value == null) {
             return "";
         }
         return value;

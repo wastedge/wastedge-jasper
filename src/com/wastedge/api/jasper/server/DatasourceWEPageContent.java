@@ -1,21 +1,3 @@
-/****
- * 
- * Copyright 2013-2016 Wedjaa <http://www.wedjaa.net/>
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- *    http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- *
- */
-
 package com.wastedge.api.jasper.server;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -24,7 +6,6 @@ import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -38,21 +19,15 @@ import com.jaspersoft.studio.server.utils.ResourceDescriptorUtil;
 import com.jaspersoft.studio.server.wizard.resource.APageContent;
 import com.jaspersoft.studio.utils.Misc;
 
-import net.wedjaa.elasticparser.ESSearch;
 import com.wastedge.api.jasper.adapter.WEAdapterService;
-
 
 @SuppressWarnings("deprecation")
 public class DatasourceWEPageContent extends APageContent {
 
-	private Text esHostField;
-	private Text esPortField;
-	private Text esClusterField;
-	private Text esIndexesField;
-	private Text esTypesField;
-	private Text esUsernameField;
-	private Text esPasswordField;
-	private Combo esSearchModeField;
+	private Text hostField;
+	private Text companyField;
+	private Text usernameField;
+	private Text passwordField;
 
 	public DatasourceWEPageContent(ANode parent, AMResource resource, DataBindingContext bindingContext) {
 		super(parent, resource, bindingContext);
@@ -69,7 +44,7 @@ public class DatasourceWEPageContent extends APageContent {
 
 	@Override
 	public String getName() {
-		return "ElasticSearch DataSource";
+		return "Wastedge DataSource";
 	}
 
 	private void createLabel(Composite composite, String text) {
@@ -84,37 +59,21 @@ public class DatasourceWEPageContent extends APageContent {
 		return textField;
 	}
 
-	private Combo createComboField(Composite composite) {
-		Combo comboField = new Combo(composite, SWT.BORDER);
-		comboField.add("Hits Mode - Returns Hits Data", ESSearch.ES_MODE_HITS);
-		comboField.add("Aggregation Mode - Returns Aggregations Data", ESSearch.ES_MODE_AGGS);
-		comboField.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		return comboField;
-	}
-
 	public Control createContent(Composite parent) {
-
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout(2, false));
 
-		createLabel(composite, "Indexes - comma separated");
-		esIndexesField = createTextField(composite, false);
-		createLabel(composite, "Types - comma separated");
-		esTypesField = createTextField(composite, false);
 		createLabel(composite, "Hostname");
-		esHostField = createTextField(composite, false);
-		createLabel(composite, "Port");
-		esPortField = createTextField(composite, false);
-		createLabel(composite, "Cluster");
-		esClusterField = createTextField(composite, false);
+		hostField = createTextField(composite, false);
+		createLabel(composite, "Company");
+		companyField = createTextField(composite, false);
 		createLabel(composite, "Username");
-		esUsernameField = createTextField(composite, false);
+		usernameField = createTextField(composite, false);
 		createLabel(composite, "Password");
-		esPasswordField = createTextField(composite, true);
-		createLabel(composite, "Query Mode");
-		esSearchModeField = createComboField(composite);
+		passwordField = createTextField(composite, true);
 
 		rebind();
+		
 		return composite;
 	}
 
@@ -124,47 +83,21 @@ public class DatasourceWEPageContent extends APageContent {
 		ResourceProperty resprop = ResourceDescriptorUtil
 				.getProperty(MRDatasourceCustom.PROP_DATASOURCE_CUSTOM_PROPERTY_MAP, res.getValue().getProperties());
 
-		ResourceProperty rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.ES_INDEX_PARAM,
-				resprop.getProperties());
-		rsp.setValue(Misc.nvl(rsp.getValue()));		
-		bindingContext.bindValue(SWTObservables.observeText(esIndexesField, SWT.Modify),
-				PojoObservables.observeValue(rsp, "value"));
-
-		rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.ES_TYPE_PARAM, resprop.getProperties());
+		ResourceProperty rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.ES_HOST_PARAM, resprop.getProperties());
 		rsp.setValue(Misc.nvl(rsp.getValue()));
-		bindingContext.bindValue(SWTObservables.observeText(esTypesField, SWT.Modify),
-				PojoObservables.observeValue(rsp, "value"));
+		bindingContext.bindValue(SWTObservables.observeText(hostField, SWT.Modify), PojoObservables.observeValue(rsp, "value"));
 
-		rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.ES_HOST_PARAM, resprop.getProperties());
+		rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.ES_COMPANY_PARAM, resprop.getProperties());
 		rsp.setValue(Misc.nvl(rsp.getValue()));
-		bindingContext.bindValue(SWTObservables.observeText(esHostField, SWT.Modify),
-				PojoObservables.observeValue(rsp, "value"));
-
-		rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.ES_PORT_PARAM, resprop.getProperties());
-		rsp.setValue(Misc.nvl(rsp.getValue()));
-		bindingContext.bindValue(SWTObservables.observeText(esPortField, SWT.Modify),
-				PojoObservables.observeValue(rsp, "value"));
-
-		rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.ES_CLUSTER_PARAM, resprop.getProperties());
-		rsp.setValue(Misc.nvl(rsp.getValue()));
-		bindingContext.bindValue(SWTObservables.observeText(esClusterField, SWT.Modify),
-				PojoObservables.observeValue(rsp, "value"));
+		bindingContext.bindValue(SWTObservables.observeText(companyField, SWT.Modify), PojoObservables.observeValue(rsp, "value"));
 
 		rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.ES_USER_PARAM, resprop.getProperties());
 		rsp.setValue(Misc.nvl(rsp.getValue()));
-		bindingContext.bindValue(SWTObservables.observeText(esUsernameField, SWT.Modify),
-				PojoObservables.observeValue(rsp, "value"));
+		bindingContext.bindValue(SWTObservables.observeText(usernameField, SWT.Modify), PojoObservables.observeValue(rsp, "value"));
 
 		rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.ES_PASSWORD_PARAM, resprop.getProperties());
 		rsp.setValue(Misc.nvl(rsp.getValue()));
-		bindingContext.bindValue(SWTObservables.observeText(esPasswordField, SWT.Modify),
-				PojoObservables.observeValue(rsp, "value"));
-
-		rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.ES_MODE_PARAM, resprop.getProperties());
-		rsp.setValue(Misc.nvl(rsp.getValue()));
-		bindingContext.bindValue(SWTObservables.observeSingleSelectionIndex(esSearchModeField),
-				PojoObservables.observeValue(rsp, "value"));
-
+		bindingContext.bindValue(SWTObservables.observeText(passwordField, SWT.Modify), PojoObservables.observeValue(rsp, "value"));
 	}
 
 	@Override

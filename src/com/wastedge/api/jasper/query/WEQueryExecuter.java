@@ -1,21 +1,3 @@
-/****
- * 
- * Copyright 2013-2016 Wedjaa <http://www.wedjaa.net/>
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- *    http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- *
- */
-
 package com.wastedge.api.jasper.query;
 
 import java.util.Collection;
@@ -34,58 +16,47 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.JRFillParameter;
 import net.sf.jasperreports.engine.query.JRAbstractQueryExecuter;
-import net.wedjaa.elasticparser.ESSearch;
-import com.wastedge.api.jasper.datasource.ESDataSource;
 
-/**
- *
- * @author Fabio Torchetti
- */
+import com.wastedge.api.jasper.connection.WEConnection;
+import com.wastedge.api.jasper.datasource.WEDataSource;
+
 public class WEQueryExecuter extends JRAbstractQueryExecuter {
-
 	private final Map<String, ? extends JRValueParameter> reportParameters;
-
 	private final Map<String, Object> parameters;
-
 	private final boolean directParameters;
+	private WEConnection esSearch;
 
-    private ESSearch esSearch;
-    
-    private static Logger logger = Logger.getLogger(WEQueryExecuter.class);
-    
-	public WEQueryExecuter(JasperReportsContext jasperReportsContext,
-			JRDataset dataset,
-			Map<String, ? extends JRValueParameter> parameters)
-			throws JRException {
+	private static Logger logger = Logger.getLogger(WEQueryExecuter.class);
+
+	public WEQueryExecuter(JasperReportsContext jasperReportsContext, JRDataset dataset,
+			Map<String, ? extends JRValueParameter> parameters) throws JRException {
 		this(jasperReportsContext, dataset, parameters, false);
 	}
 
-	public WEQueryExecuter(JasperReportsContext jasperReportsContext,
-			JRDataset dataset,
-			Map<String, ? extends JRValueParameter> parameters,
-			boolean directParameters) {
+	public WEQueryExecuter(JasperReportsContext jasperReportsContext, JRDataset dataset,
+			Map<String, ? extends JRValueParameter> parameters, boolean directParameters) {
 		super(jasperReportsContext, dataset, parameters);
-		
-		if(logger.isDebugEnabled() && parameters.get(JRFillParameter.JASPER_REPORT) != null) {
-			JasperReport report = (JasperReport) parameters.get(JRFillParameter.JASPER_REPORT).getValue();
-			if ( report != null) {
+
+		if (logger.isDebugEnabled() && parameters.get(JRFillParameter.JASPER_REPORT) != null) {
+			JasperReport report = (JasperReport)parameters.get(JRFillParameter.JASPER_REPORT).getValue();
+			if (report != null) {
 				logger.debug("ESQueryExecuter for report: " + report.getName());
 				logger.debug("Report query: " + report.getQuery().getText());
 			}
 		}
-		if ( logger.isTraceEnabled() ) {
-			for (String param: parameters.keySet()) {
-				JRFillParameter paramVal = (JRFillParameter) parameters.get(param);
-				logger.trace("  queryParam["+param+"]: " + paramVal.getValue());
+		if (logger.isTraceEnabled()) {
+			for (String param : parameters.keySet()) {
+				JRFillParameter paramVal = (JRFillParameter)parameters.get(param);
+				logger.trace("  queryParam[" + param + "]: " + paramVal.getValue());
 			}
-			
-			Map<String,String> jrCtx = jasperReportsContext.getProperties();
-			for ( String propName: jrCtx.keySet()) {
-				logger.trace("  ctxParam["+propName+"]: " + jrCtx.get(propName));
+
+			Map<String, String> jrCtx = jasperReportsContext.getProperties();
+			for (String propName : jrCtx.keySet()) {
+				logger.trace("  ctxParam[" + propName + "]: " + jrCtx.get(propName));
 			}
 		}
 		logger.trace("Dataset Query: " + dataset.getQuery().getText());
-		
+
 		this.directParameters = directParameters;
 		this.reportParameters = parameters;
 		this.parameters = new HashMap<String, Object>();
@@ -103,26 +74,23 @@ public class WEQueryExecuter extends JRAbstractQueryExecuter {
 
 	@Override
 	public void close() {
-        esSearch.close();
+		esSearch.close();
 		esSearch = null;
 	}
 
-	private ESSearch processConnection(JRValueParameter valueParameter)
-			throws JRException {
+	private WEConnection processConnection(JRValueParameter valueParameter) throws JRException {
 		if (valueParameter == null) {
 			throw new JRException("No ElasticSearch connection");
 		}
-		return (ESSearch) valueParameter.getValue();
+		return (WEConnection)valueParameter.getValue();
 	}
-
 
 	@Override
 	public JRDataSource createDatasource() throws JRException {
-		ESSearch connection = (ESSearch) ((Map<?, ?>) getParameterValue(JRParameter.REPORT_PARAMETERS_MAP))
+		WEConnection connection = (WEConnection)((Map<?, ?>)getParameterValue(JRParameter.REPORT_PARAMETERS_MAP))
 				.get(JRParameter.REPORT_CONNECTION);
 		if (connection == null) {
-			connection = processConnection(reportParameters
-					.get(JRParameter.REPORT_CONNECTION));
+			connection = processConnection(reportParameters.get(JRParameter.REPORT_CONNECTION));
 			if (connection == null) {
 				throw new JRException("No ES connection");
 			}
@@ -131,12 +99,12 @@ public class WEQueryExecuter extends JRAbstractQueryExecuter {
 		// for the datasource based on
 		// the one that was handed over
 		// to us.
-		ESSearch newSearch = connection.clone();
+		WEConnection newSearch = connection.clone();
 		newSearch.setSearch(getQueryString());
-        
+
 		esSearch = connection;
-        logger.debug("Create new DataSource witha clone of the current connection.");
-        logger.debug("Setting the search to query: " + getQueryString());
+		logger.debug("Create new DataSource with a clone of the current connection.");
+		logger.debug("Setting the search to query: " + getQueryString());
 		return new WEDataSource(newSearch);
 	}
 
@@ -148,11 +116,10 @@ public class WEQueryExecuter extends JRAbstractQueryExecuter {
 		logger.debug("Getting replacement for: " + parameterName);
 		Object parameterValue = reportParameters.get(parameterName);
 		if (parameterValue == null) {
-			throw new JRRuntimeException("Parameter \"" + parameterName
-					+ "\" does not exist.");
+			throw new JRRuntimeException("Parameter \"" + parameterName + "\" does not exist.");
 		}
 		if (parameterValue instanceof JRValueParameter) {
-			parameterValue = ((JRValueParameter) parameterValue).getValue();
+			parameterValue = ((JRValueParameter)parameterValue).getValue();
 		}
 		return processParameter(parameterName, parameterValue);
 	}
@@ -161,7 +128,7 @@ public class WEQueryExecuter extends JRAbstractQueryExecuter {
 		if (parameterValue instanceof Collection) {
 			StringBuilder builder = new StringBuilder();
 			builder.append("[");
-			for (Object value : (Collection<?>) parameterValue) {
+			for (Object value : (Collection<?>)parameterValue) {
 				if (value instanceof String) {
 					builder.append("\"");
 					builder.append(value);
@@ -196,9 +163,7 @@ public class WEQueryExecuter extends JRAbstractQueryExecuter {
 		try {
 			return super.getParameterValue(parameterName, ignoreMissing);
 		} catch (Exception e) {
-			if (e.getMessage()
-					.endsWith(
-							"cannot be cast to net.sf.jasperreports.engine.JRValueParameter")
+			if (e.getMessage().endsWith("cannot be cast to net.sf.jasperreports.engine.JRValueParameter")
 					&& directParameters) {
 				return reportParameters.get(parameterName);
 			}
@@ -209,5 +174,5 @@ public class WEQueryExecuter extends JRAbstractQueryExecuter {
 	public Map<String, Object> getParameters() {
 		return parameters;
 	}
-    
+
 }
