@@ -21,7 +21,6 @@ public class WEAdapterFactory implements DataAdapterFactory {
 	 * @see com.jaspersoft.studio.data.DataAdapterFactory#createDataAdapter()
 	 */
 	public DataAdapterDescriptor createDataAdapter() {
-
 		WEAdapterDescriptor descriptor = new WEAdapterDescriptor();
 		descriptor.getDataAdapter().setWastedgeCompany("");
 		descriptor.getDataAdapter().setWastedgeHost("");

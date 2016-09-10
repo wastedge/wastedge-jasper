@@ -10,16 +10,13 @@ import org.apache.log4j.*;
 
 public class WEQueryExecuterFactoryBundle implements JRQueryExecuterFactoryBundle {
 	private static final JRSingletonCache<QueryExecuterFactory> cache = new JRSingletonCache<QueryExecuterFactory>(QueryExecuterFactory.class);
-
 	private static final WEQueryExecuterFactoryBundle instance = new WEQueryExecuterFactoryBundle();
-
 	private static final String[] languages = new String[] { WEDataSource.QUERY_LANGUAGE };
-
 	private static final Logger logger = Logger.getLogger(WEQueryExecuterFactoryBundle.class);
 
 	private WEQueryExecuterFactoryBundle() {
 		if (logger != null) {
-			logger.debug("This is the query executer for ES");
+			logger.debug("This is the query executer for WE");
 		}
 	}
 
@@ -36,7 +33,7 @@ public class WEQueryExecuterFactoryBundle implements JRQueryExecuterFactoryBundl
 	public QueryExecuterFactory getQueryExecuterFactory(String language) throws JRException {
 		logger.debug("Begin asked for a factory for: " + language);
 		if (WEDataSource.QUERY_LANGUAGE.equals(language)) {
-			logger.debug("Returning a ESQueryExecuterFactory");
+			logger.debug("Returning a WEQueryExecuterFactory");
 			return (QueryExecuterFactory)cache.getCachedInstance(WEQueryExecuterFactory.class.getName());
 		}
 		return null;

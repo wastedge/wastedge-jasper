@@ -23,7 +23,6 @@ import com.wastedge.api.jasper.adapter.WEAdapterService;
 
 @SuppressWarnings("deprecation")
 public class DatasourceWEPageContent extends APageContent {
-
 	private Text hostField;
 	private Text companyField;
 	private Text usernameField;
@@ -39,7 +38,7 @@ public class DatasourceWEPageContent extends APageContent {
 
 	@Override
 	public String getPageName() {
-		return "com.wastedge.api.jasper.server.page.datasource.elasticsearch";
+		return "com.wastedge.api.jasper.server.page.datasource.wastedge";
 	}
 
 	@Override
@@ -82,19 +81,19 @@ public class DatasourceWEPageContent extends APageContent {
 
 		ResourceProperty resprop = ResourceDescriptorUtil.getProperty(MRDatasourceCustom.PROP_DATASOURCE_CUSTOM_PROPERTY_MAP, res.getValue().getProperties());
 
-		ResourceProperty rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.ES_HOST_PARAM, resprop.getProperties());
+		ResourceProperty rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.WE_HOST_PARAM, resprop.getProperties());
 		rsp.setValue(Misc.nvl(rsp.getValue()));
 		bindingContext.bindValue(SWTObservables.observeText(hostField, SWT.Modify), PojoObservables.observeValue(rsp, "value"));
 
-		rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.ES_COMPANY_PARAM, resprop.getProperties());
+		rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.WE_COMPANY_PARAM, resprop.getProperties());
 		rsp.setValue(Misc.nvl(rsp.getValue()));
 		bindingContext.bindValue(SWTObservables.observeText(companyField, SWT.Modify), PojoObservables.observeValue(rsp, "value"));
 
-		rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.ES_USER_PARAM, resprop.getProperties());
+		rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.WE_USER_PARAM, resprop.getProperties());
 		rsp.setValue(Misc.nvl(rsp.getValue()));
 		bindingContext.bindValue(SWTObservables.observeText(usernameField, SWT.Modify), PojoObservables.observeValue(rsp, "value"));
 
-		rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.ES_PASSWORD_PARAM, resprop.getProperties());
+		rsp = ResourceDescriptorUtil.getProperty(WEAdapterService.WE_PASSWORD_PARAM, resprop.getProperties());
 		rsp.setValue(Misc.nvl(rsp.getValue()));
 		bindingContext.bindValue(SWTObservables.observeText(passwordField, SWT.Modify), PojoObservables.observeValue(rsp, "value"));
 	}

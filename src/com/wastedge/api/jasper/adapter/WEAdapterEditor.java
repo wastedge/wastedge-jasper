@@ -8,12 +8,12 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.widgets.Composite;
 
 public class WEAdapterEditor implements DataAdapterEditor {
-
 	protected WEAdapterComposite composite = null;
 
 	public ADataAdapterComposite getComposite(Composite parent, int style, WizardPage wizardPage, JasperReportsContext jrContext) {
-		if (composite == null)
+		if (composite == null) {
 			composite = new WEAdapterComposite(parent, style, jrContext);
+		}
 		return composite;
 	}
 
@@ -42,8 +42,8 @@ public class WEAdapterEditor implements DataAdapterEditor {
 	 * jaspersoft .studio.data.DataAdapter)
 	 */
 	public void setDataAdapter(DataAdapterDescriptor dataAdapter) {
-		if (dataAdapter instanceof WEAdapterDescriptor)
+		if (dataAdapter instanceof WEAdapterDescriptor) {
 			composite.setDataAdapter((WEAdapterDescriptor)dataAdapter);
+		}
 	}
-
 }

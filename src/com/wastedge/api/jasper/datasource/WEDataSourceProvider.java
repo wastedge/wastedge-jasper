@@ -14,10 +14,10 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.base.JRBaseField;
 
 public class WEDataSourceProvider implements JRDataSourceProvider {
-	private class ESField extends JRBaseField {
+	private class WEField extends JRBaseField {
 		private static final long serialVersionUID = 1L;
 
-		ESField(String name, String description, Class<?> objType) {
+		WEField(String name, String description, Class<?> objType) {
 			this.name = name;
 			this.description = description;
 			this.valueClass = objType;
@@ -25,7 +25,7 @@ public class WEDataSourceProvider implements JRDataSourceProvider {
 		}
 
 		@SuppressWarnings("unused")
-		ESField(String name, String description) {
+		WEField(String name, String description) {
 			this(name, description, String.class);
 		}
 	}
@@ -35,39 +35,39 @@ public class WEDataSourceProvider implements JRDataSourceProvider {
 		return true;
 	}
 
-	private WEConnection getESSearch(JasperReport jr) {
-		WEConnection esSearch = null;
+	private WEConnection getConnection(JasperReport jr) {
+		WEConnection connection = null;
 
 		if (jr == null) {
-			return esSearch;
+			return connection;
 		}
 
 		JRValueParameter[] reportParameters = (JRValueParameter[])jr.getParameters();
 		for (JRValueParameter parameter : reportParameters) {
 			if (parameter.getName().equals(JRParameter.REPORT_CONNECTION)) {
-				esSearch = (WEConnection)parameter.getValue();
+				connection = (WEConnection)parameter.getValue();
 				break;
 			}
 		}
 
-		return esSearch;
+		return connection;
 	}
 
 	@Override
 	public JRField[] getFields(JasperReport jr) throws JRException {
-		WEConnection esSearch = getESSearch(jr);
+		WEConnection connection = getConnection(jr);
 
-		if (esSearch == null) {
-			throw new JRException("No ElasticSearch connection for this report!!");
+		if (connection == null) {
+			throw new JRException("No Wastedge connection for this report!!");
 		}
 
-		Map<String, Class<?>> fields = esSearch.getFields();
+		Map<String, Class<?>> fields = connection.getFields();
 
 		JRField[] result = new JRField[fields.size()];
 		int idx = 0;
 
 		for (String field : fields.keySet()) {
-			result[idx] = new ESField(field, field, fields.get(field));
+			result[idx] = new WEField(field, field, fields.get(field));
 			idx++;
 		}
 
@@ -76,13 +76,13 @@ public class WEDataSourceProvider implements JRDataSourceProvider {
 
 	@Override
 	public JRDataSource create(JasperReport jr) throws JRException {
-		WEConnection esSearch = getESSearch(jr);
+		WEConnection connection = getConnection(jr);
 
-		if (esSearch == null) {
-			throw new JRException("No ElasticSearcg connection for this report!!");
+		if (connection == null) {
+			throw new JRException("No Wastedge connection for this report!!");
 		}
 
-		return new WEDataSource(esSearch);
+		return new WEDataSource(connection);
 	}
 
 	@Override

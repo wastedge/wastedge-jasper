@@ -23,18 +23,16 @@ import com.jaspersoft.studio.data.ui.WizardQueryEditorComposite;
 import com.jaspersoft.studio.utils.jasper.JasperReportsConfiguration;
 
 public class WEAdapterDescriptor extends DataAdapterDescriptor implements IFieldsProvider, IWizardDataEditorProvider {
-
 	public static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
 	private static final Logger logger = Logger.getLogger(WEAdapterDescriptor.class);
 
 	private IFieldsProvider fieldsProvider;
 
 	@Override
 	public WEAdapter getDataAdapter() {
-
-		if (dataAdapter == null)
+		if (dataAdapter == null) {
 			dataAdapter = new WEAdapterImplementation();
+		}
 
 		return (WEAdapter)dataAdapter;
 	}
@@ -64,7 +62,6 @@ public class WEAdapterDescriptor extends DataAdapterDescriptor implements IField
 
 		logger.debug("Returning an icon.");
 		return image;
-
 	}
 
 	public List<JRDesignField> getFields(DataAdapterService con, JasperReportsConfiguration jConfig, JRDataset reportDataset) throws JRException, UnsupportedOperationException {
@@ -73,8 +70,9 @@ public class WEAdapterDescriptor extends DataAdapterDescriptor implements IField
 	}
 
 	private void getFieldProvider() {
-		if (fieldsProvider == null)
+		if (fieldsProvider == null) {
 			fieldsProvider = new WEFieldsProvider();
+		}
 	}
 
 	public boolean supportsGetFieldsOperation(JasperReportsConfiguration jConfig) {
@@ -86,5 +84,4 @@ public class WEAdapterDescriptor extends DataAdapterDescriptor implements IField
 	public AWizardDataEditorComposite createDataEditorComposite(Composite parent, WizardPage page) {
 		return new WizardQueryEditorComposite(parent, page, this, WEDataSource.QUERY_LANGUAGE);
 	}
-
 }

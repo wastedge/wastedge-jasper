@@ -16,19 +16,20 @@ public class WEDataSource implements JRDataSource {
 	public static String QUERY_LANGUAGE = "wastedge";
 	public static String WASTEDGE_SEARCH = "we_search";
 
-	private WEConnection esSearch = null;
+	private WEConnection connection = null;
 	private Map<String, Object> currentEvent = null;
 
-	public WEDataSource(WEConnection esSearch) {
-		this.esSearch = esSearch;
-		logger.debug("Created a new elasticsearch datasource connected to " + esSearch.getHost());
-		this.esSearch.search();
-		logger.debug("Search for " + this.esSearch.getSearch() + " has started....");
+	public WEDataSource(WEConnection connection) {
+		this.connection = connection;
+		logger.debug("Created a new Wastedge datasource connected to " + connection.getHost());
+		
+		this.connection.search();
+		logger.debug("Search for " + this.connection.getSearch() + " has started....");
 	}
 
 	@Override
 	public boolean next() throws JRException {
-		currentEvent = esSearch.next();
+		currentEvent = connection.next();
 		return currentEvent != null;
 	}
 
@@ -42,9 +43,8 @@ public class WEDataSource implements JRDataSource {
 	}
 
 	public void dispose() {
-		esSearch.close();
-		esSearch = null;
+		connection.close();
+		connection = null;
 		currentEvent = null;
 	}
-
 }

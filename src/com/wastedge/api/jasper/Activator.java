@@ -23,7 +23,7 @@ public class Activator extends AbstractJRUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "Wastedge";
-	public static final String ICON_NAME = "icons/es_icon_32.png";
+	public static final String ICON_NAME = "icons/we_icon_32.png";
 
 	// The shared instance
 	private static Activator plugin;
@@ -57,7 +57,7 @@ public class Activator extends AbstractJRUIPlugin {
 		// add appender to any Logger (here is root)
 		Logger.getRootLogger().addAppender(console);
 		logger = Logger.getRootLogger();
-		logger.info("Starting ElasticSearch Plugin - Activator called!");
+		logger.info("Starting Wastedge Plugin - Activator called!");
 		plugin = this;
 		logger.info("Plugin reference: " + plugin);
 		Bundle bundle = plugin.getBundle();
@@ -69,7 +69,7 @@ public class Activator extends AbstractJRUIPlugin {
 			logger.info("Resolved URL: " + resolvedURL);
 			PropertyConfigurator.configure(resolvedURL);
 		}
-		logger.debug("Started the ElasticSearch JR bundle - and configured logging");
+		logger.debug("Started the Wastedge JR bundle - and configured logging");
 	}
 
 	/*
@@ -80,7 +80,7 @@ public class Activator extends AbstractJRUIPlugin {
 	 */
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
-		logger.debug("Stopping the ElasticSearch JR bundle");
+		logger.debug("Stopping the Wastedge JR bundle");
 		super.stop(context);
 	}
 
@@ -90,7 +90,7 @@ public class Activator extends AbstractJRUIPlugin {
 	 * @return the shared instance
 	 */
 	public static Activator getDefault() {
-		logger.debug("Returning the current ElasticSearch JR activator: " + plugin);
+		logger.debug("Returning the current Wastedge JR activator: " + plugin);
 		if (plugin == null) {
 			logger.warn("This plugin is null - returning a new activator!");
 			plugin = new Activator();

@@ -24,7 +24,7 @@ public class WEQueryExecuter extends JRAbstractQueryExecuter {
 	private final Map<String, ? extends JRValueParameter> reportParameters;
 	private final Map<String, Object> parameters;
 	private final boolean directParameters;
-	private WEConnection esSearch;
+	private WEConnection connection;
 
 	private static Logger logger = Logger.getLogger(WEQueryExecuter.class);
 
@@ -38,7 +38,7 @@ public class WEQueryExecuter extends JRAbstractQueryExecuter {
 		if (logger.isDebugEnabled() && parameters.get(JRFillParameter.JASPER_REPORT) != null) {
 			JasperReport report = (JasperReport)parameters.get(JRFillParameter.JASPER_REPORT).getValue();
 			if (report != null) {
-				logger.debug("ESQueryExecuter for report: " + report.getName());
+				logger.debug("WEQueryExecuter for report: " + report.getName());
 				logger.debug("Report query: " + report.getQuery().getText());
 			}
 		}
@@ -53,12 +53,15 @@ public class WEQueryExecuter extends JRAbstractQueryExecuter {
 				logger.trace("  ctxParam[" + propName + "]: " + jrCtx.get(propName));
 			}
 		}
+		
 		logger.trace("Dataset Query: " + dataset.getQuery().getText());
 
 		this.directParameters = directParameters;
 		this.reportParameters = parameters;
 		this.parameters = new HashMap<String, Object>();
-		logger.debug("Started a query executer for ElasticSearch");
+		
+		logger.debug("Started a query executer for Wastedge");
+		
 		parseQuery();
 	}
 
@@ -72,13 +75,13 @@ public class WEQueryExecuter extends JRAbstractQueryExecuter {
 
 	@Override
 	public void close() {
-		esSearch.close();
-		esSearch = null;
+		connection.close();
+		connection = null;
 	}
 
 	private WEConnection processConnection(JRValueParameter valueParameter) throws JRException {
 		if (valueParameter == null) {
-			throw new JRException("No ElasticSearch connection");
+			throw new JRException("No Wastedge connection");
 		}
 		return (WEConnection)valueParameter.getValue();
 	}
@@ -89,20 +92,22 @@ public class WEQueryExecuter extends JRAbstractQueryExecuter {
 		if (connection == null) {
 			connection = processConnection(reportParameters.get(JRParameter.REPORT_CONNECTION));
 			if (connection == null) {
-				throw new JRException("No ES connection");
+				throw new JRException("No WE connection");
 			}
 		}
 		// We create a new connection
 		// for the datasource based on
 		// the one that was handed over
 		// to us.
-		WEConnection newSearch = connection.clone();
-		newSearch.setSearch(getQueryString());
+		WEConnection newConnection = connection.clone();
+		newConnection.setSearch(getQueryString());
 
-		esSearch = connection;
+		this.connection = connection;
+		
 		logger.debug("Create new DataSource with a clone of the current connection.");
 		logger.debug("Setting the search to query: " + getQueryString());
-		return new WEDataSource(newSearch);
+		
+		return new WEDataSource(newConnection);
 	}
 
 	/**
@@ -111,6 +116,7 @@ public class WEQueryExecuter extends JRAbstractQueryExecuter {
 	@Override
 	protected String getParameterReplacement(String parameterName) {
 		logger.debug("Getting replacement for: " + parameterName);
+		
 		Object parameterValue = reportParameters.get(parameterName);
 		if (parameterValue == null) {
 			throw new JRRuntimeException("Parameter \"" + parameterName + "\" does not exist.");
@@ -118,6 +124,7 @@ public class WEQueryExecuter extends JRAbstractQueryExecuter {
 		if (parameterValue instanceof JRValueParameter) {
 			parameterValue = ((JRValueParameter)parameterValue).getValue();
 		}
+		
 		return processParameter(parameterName, parameterValue);
 	}
 
@@ -139,11 +146,15 @@ public class WEQueryExecuter extends JRAbstractQueryExecuter {
 				builder.delete(builder.length() - 2, builder.length());
 			}
 			builder.append("]");
+			
 			logger.debug("Processed parameter: " + builder.toString());
+			
 			return builder.toString();
 		}
+		
 		logger.debug("Adding parameter: " + parameterName);
 		parameters.put(parameterName, parameterValue);
+		
 		return generateParameterObject(parameterName);
 	}
 
@@ -170,5 +181,4 @@ public class WEQueryExecuter extends JRAbstractQueryExecuter {
 	public Map<String, Object> getParameters() {
 		return parameters;
 	}
-
 }

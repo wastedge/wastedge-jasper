@@ -18,13 +18,10 @@ import org.eclipse.swt.widgets.Text;
 @SuppressWarnings("deprecation")
 public class WEAdapterComposite extends ADataAdapterComposite {
 	private WEAdapterDescriptor dataAdapterDescriptor;
-	private Text weHostField;
-	private Text wePortField;
-	private Text weClusterField;
-	private Text weIndexesField;
-	private Text weTypesField;
-	private Text weUsernameField;
-	private Text wePasswordField;
+	private Text hostField;
+	private Text companyField;
+	private Text usernameField;
+	private Text passwordField;
 
 	public WEAdapterComposite(Composite parent, int style, JasperReportsContext jrContext) {
 		super(parent, style, jrContext);
@@ -34,21 +31,14 @@ public class WEAdapterComposite extends ADataAdapterComposite {
 
 	private void initComponents() {
 		setLayout(new GridLayout(2, false));
-		createLabel("Indexes - comma separated");
-		weIndexesField = createTextField(false);
-		createLabel("Types - comma separated");
-		weTypesField = createTextField(false);
 		createLabel("Hostname");
-		weHostField = createTextField(false);
-		createLabel("Port");
-		wePortField = createTextField(false);
-		createLabel("Cluster");
-		weClusterField = createTextField(false);
+		hostField = createTextField(false);
+		createLabel("Company");
+		companyField = createTextField(false);
 		createLabel("Username");
-		weUsernameField = createTextField(false);
+		usernameField = createTextField(false);
 		createLabel("Password");
-		wePasswordField = createTextField(true);
-
+		passwordField = createTextField(true);
 	}
 
 	private void createLabel(String text) {
@@ -81,18 +71,14 @@ public class WEAdapterComposite extends ADataAdapterComposite {
 
 	@Override
 	protected void bindWidgets(DataAdapter dataAdapter) {
-		bindingContext.bindValue(SWTObservables.observeText(weHostField, SWT.Modify), PojoObservables.observeValue(dataAdapter, "elasticSearchHost"));
-		bindingContext.bindValue(SWTObservables.observeText(wePortField, SWT.Modify), PojoObservables.observeValue(dataAdapter, "elasticSearchPort"));
-		bindingContext.bindValue(SWTObservables.observeText(weClusterField, SWT.Modify), PojoObservables.observeValue(dataAdapter, "elasticSearchCluster"));
-		bindingContext.bindValue(SWTObservables.observeText(weIndexesField, SWT.Modify), PojoObservables.observeValue(dataAdapter, "elasticSearchIndexes"));
-		bindingContext.bindValue(SWTObservables.observeText(weTypesField, SWT.Modify), PojoObservables.observeValue(dataAdapter, "elasticSearchTypes"));
-		bindingContext.bindValue(SWTObservables.observeText(weUsernameField, SWT.Modify), PojoObservables.observeValue(dataAdapter, "elasticSearchUsername"));
-		bindingContext.bindValue(SWTObservables.observeText(wePasswordField, SWT.Modify), PojoObservables.observeValue(dataAdapter, "elasticSearchPassword"));
+		bindingContext.bindValue(SWTObservables.observeText(hostField, SWT.Modify), PojoObservables.observeValue(dataAdapter, "wastedgeHost"));
+		bindingContext.bindValue(SWTObservables.observeText(companyField, SWT.Modify), PojoObservables.observeValue(dataAdapter, "wastedgeCompany"));
+		bindingContext.bindValue(SWTObservables.observeText(usernameField, SWT.Modify), PojoObservables.observeValue(dataAdapter, "wastedgeUsername"));
+		bindingContext.bindValue(SWTObservables.observeText(passwordField, SWT.Modify), PojoObservables.observeValue(dataAdapter, "wastedgePassword"));
 	}
 
 	@Override
 	public String getHelpContextId() {
-		return PREFIX.concat("adapter_elasticsearch");
+		return PREFIX.concat("adapter_wastedge");
 	}
-
 }

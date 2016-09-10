@@ -15,9 +15,6 @@ public class WEQueryExecuterFactory implements QueryExecuterFactory {
 		return new WEQueryExecuter(DefaultJasperReportsContext.getInstance(), dataset, parameters);
 	};
 
-	/**
-	 * Method not implemented
-	 */
 	public Object[] getBuiltinParameters() {
 		return null;
 	}

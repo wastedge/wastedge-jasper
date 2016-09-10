@@ -29,6 +29,17 @@ public class WEAdapterImplementation extends AbstractDataAdapter implements WEAd
 	}
 
 	@Override
+	public String getWastedgeCompany() {
+		return wastedgeCompany;
+	}
+
+	@Override
+	public void setWastedgeCompany(String wastedgeCompany) {
+		logger.debug("Set Company: " + wastedgeCompany);
+		this.wastedgeCompany = wastedgeCompany;
+	}
+
+	@Override
 	public String getWastedgeUsername() {
 		return wastedgeUsername;
 	}
@@ -48,16 +59,5 @@ public class WEAdapterImplementation extends AbstractDataAdapter implements WEAd
 	public void setWastedgePassword(String wastedgePassword) {
 		logger.debug("Set Password: " + wastedgePassword);
 		this.wastedgePassword = wastedgePassword;
-	}
-
-	@Override
-	public String getWastedgeCompany() {
-		return wastedgeCompany;
-	}
-
-	@Override
-	public void setWastedgeCompany(String elasticSearchTypes) {
-		logger.debug("Set Company: " + elasticSearchTypes);
-		this.wastedgeCompany = elasticSearchTypes;
 	}
 }

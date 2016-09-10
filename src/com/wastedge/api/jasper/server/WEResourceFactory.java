@@ -18,7 +18,6 @@ import com.jaspersoft.studio.server.wizard.resource.APageContent;
 import com.jaspersoft.studio.server.wizard.resource.page.ResourcePageContent;
 
 public class WEResourceFactory implements IResourceFactory {
-
 	public AMResource getResource(ANode parent, ResourceDescriptor resource, int index) {
 		if (resource.getWsType().equals(ResourceDescriptor.TYPE_DATASOURCE_CUSTOM)) {
 			ResourceProperty rp = ResourceDescriptorUtil.getProperty(ResourceDescriptor.PROP_DATASOURCE_CUSTOM_SERVICE_CLASS, resource.getProperties());
@@ -29,8 +28,9 @@ public class WEResourceFactory implements IResourceFactory {
 	}
 
 	public IWizardPage[] getResourcePage(ANode parent, AMResource resource) {
-		if (resource instanceof MRDatasourceWE)
+		if (resource instanceof MRDatasourceWE) {
 			return APageContent.getPages(resource, new ResourcePageContent(parent, resource), new DatasourceWEPageContent(parent, resource));
+		}
 		return null;
 	}
 
@@ -62,5 +62,4 @@ public class WEResourceFactory implements IResourceFactory {
 	public void initContainers(Set<Class<? extends ClientResource<?>>> containers) {
 
 	}
-
 }

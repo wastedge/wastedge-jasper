@@ -18,7 +18,6 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.design.JRDesignField;
 
 public class WEFieldsProvider implements IFieldsProvider {
-
 	private static Logger logger = Logger.getLogger(WEFieldsProvider.class);
 
 	public boolean supportsGetFieldsOperation(JasperReportsConfiguration jConfig) {
@@ -27,16 +26,22 @@ public class WEFieldsProvider implements IFieldsProvider {
 
 	public List<JRDesignField> getFields(DataAdapterService dataAdapterService, JasperReportsConfiguration jasperReportsConfiguration, JRDataset dataset)
 			throws JRException, UnsupportedOperationException {
-
 		logger.debug("Was asked to provide a list of fields.");
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put(JRParameter.REPORT_MAX_COUNT, 0);
+		
 		dataAdapterService.contributeParameters(parameters);
+		
 		ParameterUtil.setParameters(jasperReportsConfiguration, dataset, parameters);
+		
 		logger.debug("Getting fields for query: " + dataset.getQuery().getText());
-		return com.wastedge.api.jasper.datasource.WEFieldsProvider.getInstance().getFields(jasperReportsConfiguration, dataset, parameters,
-				(WEConnection)parameters.get(JRParameter.REPORT_CONNECTION));
+		
+		return com.wastedge.api.jasper.datasource.WEFieldsProvider.getInstance().getFields(
+			jasperReportsConfiguration,
+			dataset,
+			parameters,
+			(WEConnection)parameters.get(JRParameter.REPORT_CONNECTION)
+		);
 	}
-
 }

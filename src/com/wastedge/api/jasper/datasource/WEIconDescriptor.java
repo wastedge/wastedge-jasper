@@ -7,18 +7,11 @@ import com.wastedge.api.jasper.Activator;
 import com.jaspersoft.studio.model.util.NodeIconDescriptor;
 
 public class WEIconDescriptor extends NodeIconDescriptor {
-	/**
-	 * Instantiates a new node icon descriptor.
-	 * 
-	 * @param name
-	 *            the name
-	 */
+	private static ResourceBundle resourceBundleIcons;
+
 	public WEIconDescriptor(String name) {
 		super(name, Activator.getDefault());
 	}
-
-	/** The resource bundle icons. */
-	private static ResourceBundle resourceBundleIcons;
 
 	@Override
 	public ResourceBundle getResourceBundleIcons() {
@@ -29,5 +22,4 @@ public class WEIconDescriptor extends NodeIconDescriptor {
 	public void setResourceBundleIcons(ResourceBundle resourceBundleIcons) {
 		WEIconDescriptor.resourceBundleIcons = resourceBundleIcons;
 	}
-
 }

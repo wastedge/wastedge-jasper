@@ -15,7 +15,6 @@ import com.jaspersoft.studio.server.model.datasource.MRDatasourceCustom;
 import com.jaspersoft.studio.server.protocol.restv2.DiffFields;
 
 public class MRDatasourceWE extends MRDatasourceCustom {
-
 	public static final String CUSTOM_CLASS = "com.wastedge.api.jasper.adapter.WEAdapterService";
 	public static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
@@ -44,11 +43,11 @@ public class MRDatasourceWE extends MRDatasourceCustom {
 		List<ResourceProperty> props = new ArrayList<ResourceProperty>();
 
 		// Connection Parameters
-		props.add(new ResourceProperty(WEAdapterService.ES_HOST_PARAM, ""));
-		props.add(new ResourceProperty(WEAdapterService.ES_COMPANY_PARAM, ""));
+		props.add(new ResourceProperty(WEAdapterService.WE_HOST_PARAM, ""));
+		props.add(new ResourceProperty(WEAdapterService.WE_COMPANY_PARAM, ""));
 		// Authentication Parameters
-		props.add(new ResourceProperty(WEAdapterService.ES_USER_PARAM, ""));
-		props.add(new ResourceProperty(WEAdapterService.ES_PASSWORD_PARAM, ""));
+		props.add(new ResourceProperty(WEAdapterService.WE_USER_PARAM, ""));
+		props.add(new ResourceProperty(WEAdapterService.WE_PASSWORD_PARAM, ""));
 
 		props.add(new ResourceProperty("_cds_name", "WEDataSource"));
 		rp.setProperties(props);

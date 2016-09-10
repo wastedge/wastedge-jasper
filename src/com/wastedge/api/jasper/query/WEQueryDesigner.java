@@ -11,10 +11,10 @@ import com.jaspersoft.studio.data.designer.QueryDesigner;
 import com.jaspersoft.studio.wizards.ContextHelpIDs;
 
 public class WEQueryDesigner extends QueryDesigner {
+	private static Logger logger = Logger.getLogger(WEQueryDesigner.class);
+
 	/* Text area where enter the query */
 	protected StyledText queryTextArea;
-
-	private static Logger logger = Logger.getLogger(WEQueryDesigner.class);
 
 	public Control createControl(Composite parent) {
 		control = (StyledText)super.createControl(parent);
