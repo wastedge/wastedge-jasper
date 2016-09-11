@@ -37,6 +37,9 @@ public class WEDataSource implements JRDataSource {
 	@Override
 	public Object getFieldValue(JRField jrf) throws JRException {
 		Object value = currentEvent.get(jrf.getName());
+		if (value == null) {
+			return "";
+		}
 		if (value instanceof byte[]) {
 			return new ByteArrayInputStream((byte[])value);
 		}
