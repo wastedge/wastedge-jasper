@@ -3,19 +3,24 @@ package com.wastedge.api.jasper.datasource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JRDesignField;
 
 import org.apache.log4j.Logger;
 
+import com.jaspersoft.studio.utils.parameter.SimpleValueParameter;
 import com.wastedge.api.jasper.connection.WEConnection;
+import com.wastedge.api.jasper.query.WEQueryExecuter;
 
 public class WEFieldsProvider {
 	private static final Lock lock = new ReentrantLock();
@@ -51,9 +56,13 @@ public class WEFieldsProvider {
 			return fields;
 		}
 		
-		String query = dataset.getQuery().getText();
+		logger.debug("Getting fields for query: " + dataset.getQuery().getText());
+		
+		WEQueryExecuter queryExecutor = new WEQueryExecuter(context, dataset, getReportParameters(parameters));
+		String query = queryExecutor.getProcessedQueryString();
 
 		logger.debug("Passing query to connection: " + query);
+		
 		connection.setSearch(query);
 		Map<String, Class<?>> queryFields = connection.getFields(query);
 
@@ -75,4 +84,13 @@ public class WEFieldsProvider {
 		return fields;
 	}
 
+	private Map<String, JRValueParameter> getReportParameters(Map<String, Object> parameters) {
+		 Map<String, JRValueParameter> reportParameters = new HashMap<>();
+		 
+		 for (Entry<String, Object> entry : parameters.entrySet()) {
+			 reportParameters.put(entry.getKey(), new SimpleValueParameter(entry.getValue()));
+		 }
+		 
+		 return reportParameters;
+	}
 }

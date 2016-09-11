@@ -1,5 +1,6 @@
 package com.wastedge.api.jasper.datasource;
 
+import java.io.ByteArrayInputStream;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -19,7 +20,7 @@ public class WEDataSource implements JRDataSource {
 	private WEConnection connection = null;
 	private Map<String, Object> currentEvent = null;
 
-	public WEDataSource(WEConnection connection) {
+	public WEDataSource(WEConnection connection) throws JRException {
 		this.connection = connection;
 		logger.debug("Created a new Wastedge datasource connected to " + connection.getHost());
 		
@@ -36,8 +37,8 @@ public class WEDataSource implements JRDataSource {
 	@Override
 	public Object getFieldValue(JRField jrf) throws JRException {
 		Object value = currentEvent.get(jrf.getName());
-		if (value == null) {
-			return "";
+		if (value instanceof byte[]) {
+			return new ByteArrayInputStream((byte[])value);
 		}
 		return value;
 	}

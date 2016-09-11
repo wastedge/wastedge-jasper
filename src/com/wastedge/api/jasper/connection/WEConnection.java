@@ -12,6 +12,8 @@ public class WEConnection {
 	private final String username;
 	private final String password;
 	private String query;
+	private WEQueryExecutor executor;
+	private int maxRows;
 
 	public WEConnection(String host, String company, String username, String password) {
 		this.host = host;
@@ -40,16 +42,12 @@ public class WEConnection {
 		return new WEConnection(host, company, username, password);
 	}
 
-	public void test() {
-		// TODO: Implement
-	}
-
-	public void close() {
-		// TODO: Implement
-	}
-
-	public void search() {
-		// TODO Auto-generated method stub
+	public void test() throws JRException {
+		try {
+			newApi().getSchema();
+		} catch (IOException e) {
+			throw new JRException(e);
+		}
 	}
 
 	public String getSearch() {
@@ -59,10 +57,31 @@ public class WEConnection {
 	public void setSearch(String query) {
 		this.query = query;
 	}
+	
+	public int getMaxRows() {
+		return maxRows;
+	}
 
-	public Map<String, Object> next() {
-		// TODO Auto-generated method stub
-		return null;
+	public void setMaxRows(int maxRows) {
+		this.maxRows = maxRows;
+	}
+
+	public void search() throws JRException {
+		executor = new WEQueryExecutor(newApi());
+		try {
+			executor.setMaxRows(maxRows);
+			executor.search(query);
+		} catch (IOException e) {
+			throw new JRException(e);
+		}
+	}
+
+	public Map<String, Object> next() throws JRException {
+		try {
+			return executor.next();
+		} catch (IOException e) {
+			throw new JRException(e);
+		}
 	}
 
 	public Map<String, Class<?>> getFields() throws JRException {
@@ -79,5 +98,9 @@ public class WEConnection {
 	
 	private Api newApi() {
 		return new Api(new ApiCredentials(host, company, username, password));
+	}
+
+	public void close() {
+		// Nothing to do.
 	}
 }

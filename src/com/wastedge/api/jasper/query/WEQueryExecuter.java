@@ -1,6 +1,7 @@
 package com.wastedge.api.jasper.query;
 
-import java.util.Collection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,10 +22,16 @@ import com.wastedge.api.jasper.connection.WEConnection;
 import com.wastedge.api.jasper.datasource.WEDataSource;
 
 public class WEQueryExecuter extends JRAbstractQueryExecuter {
+	private final String DATE_FORMAT = "yyyy-MM-dd";
+	private final String DATE_TIME_FORMAT = DATE_FORMAT + "'T'HH:mm:ss.SSS";
+	
 	private final Map<String, ? extends JRValueParameter> reportParameters;
 	private final Map<String, Object> parameters;
 	private final boolean directParameters;
 	private WEConnection connection;
+	
+	private SimpleDateFormat dateFormat;
+	private SimpleDateFormat dateTimeFormat;
 
 	private static Logger logger = Logger.getLogger(WEQueryExecuter.class);
 
@@ -53,15 +60,15 @@ public class WEQueryExecuter extends JRAbstractQueryExecuter {
 				logger.trace("  ctxParam[" + propName + "]: " + jrCtx.get(propName));
 			}
 		}
-		
+
 		logger.trace("Dataset Query: " + dataset.getQuery().getText());
 
 		this.directParameters = directParameters;
 		this.reportParameters = parameters;
 		this.parameters = new HashMap<String, Object>();
-		
+
 		logger.debug("Started a query executer for Wastedge");
-		
+
 		parseQuery();
 	}
 
@@ -75,8 +82,10 @@ public class WEQueryExecuter extends JRAbstractQueryExecuter {
 
 	@Override
 	public void close() {
-		connection.close();
-		connection = null;
+		if (connection != null) {
+			connection.close();
+			connection = null;
+		}
 	}
 
 	private WEConnection processConnection(JRValueParameter valueParameter) throws JRException {
@@ -95,18 +104,23 @@ public class WEQueryExecuter extends JRAbstractQueryExecuter {
 				throw new JRException("No WE connection");
 			}
 		}
-		// We create a new connection
-		// for the datasource based on
-		// the one that was handed over
-		// to us.
+
+		// We create a new connection for the datasource based on the one that
+		// was handed over to us.
+
 		WEConnection newConnection = connection.clone();
 		newConnection.setSearch(getQueryString());
 
+		JRValueParameter maxCount = reportParameters.get("REPORT_MAX_COUNT");
+		if (maxCount != null && maxCount.getValue() instanceof Number) {
+			newConnection.setMaxRows(((Number)maxCount.getValue()).intValue());
+		}
+
 		this.connection = connection;
-		
+
 		logger.debug("Create new DataSource with a clone of the current connection.");
 		logger.debug("Setting the search to query: " + getQueryString());
-		
+
 		return new WEDataSource(newConnection);
 	}
 
@@ -116,7 +130,7 @@ public class WEQueryExecuter extends JRAbstractQueryExecuter {
 	@Override
 	protected String getParameterReplacement(String parameterName) {
 		logger.debug("Getting replacement for: " + parameterName);
-		
+
 		Object parameterValue = reportParameters.get(parameterName);
 		if (parameterValue == null) {
 			throw new JRRuntimeException("Parameter \"" + parameterName + "\" does not exist.");
@@ -124,42 +138,77 @@ public class WEQueryExecuter extends JRAbstractQueryExecuter {
 		if (parameterValue instanceof JRValueParameter) {
 			parameterValue = ((JRValueParameter)parameterValue).getValue();
 		}
-		
+
 		return processParameter(parameterName, parameterValue);
 	}
 
 	private String processParameter(String parameterName, Object parameterValue) {
-		if (parameterValue instanceof Collection) {
-			StringBuilder builder = new StringBuilder();
-			builder.append("[");
-			for (Object value : (Collection<?>)parameterValue) {
-				if (value instanceof String) {
-					builder.append("\"");
-					builder.append(value);
-					builder.append("\"");
-				} else {
-					builder.append(String.valueOf(value));
-				}
-				builder.append(", ");
-			}
-			if (builder.length() > 2) {
-				builder.delete(builder.length() - 2, builder.length());
-			}
-			builder.append("]");
-			
-			logger.debug("Processed parameter: " + builder.toString());
-			
-			return builder.toString();
+		if (parameterValue == null) {
+			return "NULL";
 		}
-		
-		logger.debug("Adding parameter: " + parameterName);
-		parameters.put(parameterName, parameterValue);
-		
-		return generateParameterObject(parameterName);
+		if (parameterValue instanceof Number) {
+			return parameterValue.toString();
+		}
+		if (parameterValue instanceof Boolean) {
+			return (boolean)parameterValue ? "TRUE" : "FALSE";
+		}
+
+		String string;
+
+		if (parameterValue instanceof Date) {
+			string = getDateTimeFormat().format((Date)parameterValue);
+		} else if (parameterValue instanceof java.sql.Date) {
+			string = getDateFormat().format((java.sql.Date)parameterValue);
+		} else if (parameterValue instanceof java.sql.Timestamp) {
+			string = getDateTimeFormat().format((java.sql.Timestamp)parameterValue);
+		} else {
+			string = parameterValue.toString();
+		}
+
+		return escape(string);
+	}
+	
+	private SimpleDateFormat getDateFormat() {
+		if (dateFormat == null) {
+			dateFormat = new SimpleDateFormat(DATE_FORMAT);
+		}
+		return dateFormat;
+	}
+	
+	private SimpleDateFormat getDateTimeFormat() {
+		if (dateTimeFormat == null) {
+			dateTimeFormat = new SimpleDateFormat(DATE_TIME_FORMAT);
+		}
+		return dateTimeFormat;
 	}
 
-	private String generateParameterObject(String parameterName) {
-		return "{'" + parameterName + "':null}";
+	private String escape(String value) {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append('\'');
+		for (int i = 0; i < value.length(); i++) {
+			char c = value.charAt(i);
+			switch (c) {
+			case '\'':
+				sb.append("\'\'");
+				break;
+			case '\n':
+				sb.append("\\n");
+				break;
+			case '\r':
+				sb.append("\\r");
+				break;
+			case '\t':
+				sb.append("\\t");
+				break;
+			default:
+				sb.append(c);
+				break;
+			}
+		}
+		sb.append('\'');
+
+		return sb.toString();
 	}
 
 	public String getProcessedQueryString() {

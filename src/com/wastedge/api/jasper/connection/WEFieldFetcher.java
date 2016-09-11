@@ -1,6 +1,7 @@
 package com.wastedge.api.jasper.connection;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 import com.wastedge.api.*;
@@ -33,7 +34,7 @@ class WEFieldFetcher {
     private Class<?> getValueClass(EntityDataType dataType) {
         switch (dataType) {
             case BYTES:
-                return byte[].class;
+            	return InputStream.class;
             case STRING:
                 return String.class;
             case DATE:
