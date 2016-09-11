@@ -1,6 +1,8 @@
 package com.wastedge.api.jasper.datasource;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
@@ -43,17 +45,17 @@ public class WEFieldsProvider {
 	public List<JRDesignField> getFields(JasperReportsContext context, JRDataset dataset, Map<String, Object> parameters, WEConnection connection) throws JRException {
 		logger.debug("Providing fields a query.");
 
-		String query = "{ query: { match_all: {} } }";
+		List<JRDesignField> fields = new ArrayList<JRDesignField>();
 
-		if (dataset.getQuery() != null) {
-			query = dataset.getQuery().getText();
+		if (dataset.getQuery() == null) {
+			return fields;
 		}
+		
+		String query = dataset.getQuery().getText();
 
 		logger.debug("Passing query to connection: " + query);
 		connection.setSearch(query);
 		Map<String, Class<?>> queryFields = connection.getFields(query);
-
-		List<JRDesignField> fields = new ArrayList<JRDesignField>();
 
 		for (String fieldName : queryFields.keySet()) {
 			JRDesignField field = new JRDesignField();
@@ -62,6 +64,13 @@ public class WEFieldsProvider {
 			field.setDescription(fieldName);
 			fields.add(field);
 		}
+
+        Collections.sort(fields, new Comparator<JRDesignField>() {
+            @Override
+            public int compare(JRDesignField lhs, JRDesignField rhs) {
+            	return lhs.getName().toLowerCase().compareTo(rhs.getName().toLowerCase());
+            }
+        });
 
 		return fields;
 	}

@@ -1,5 +1,8 @@
 package com.wastedge.api.jasper.datasource;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 
 import com.wastedge.api.jasper.connection.WEConnection;
@@ -70,7 +73,14 @@ public class WEDataSourceProvider implements JRDataSourceProvider {
 			result[idx] = new WEField(field, field, fields.get(field));
 			idx++;
 		}
-
+		
+		Arrays.sort(result, new Comparator<JRField>() {
+            @Override
+            public int compare(JRField lhs, JRField rhs) {
+                return lhs.getName().toLowerCase().compareTo(rhs.getName().toLowerCase());
+            }
+        });
+		
 		return result;
 	}
 
