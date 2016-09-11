@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/wastedge-api-jasper-feature_1.0.0.201609111029.jar" id="wastedge-api-jasper-feature" version="1.0.0.201609111029">
+   <feature url="features/wastedge-api-jasper-feature_1.0.0.201609111411.jar" id="wastedge-api-jasper-feature" version="1.0.0.201609111411">
       <category name="wastedge.com"/>
    </feature>
    <category-def name="wastedge.com" label="Wastedge"/>

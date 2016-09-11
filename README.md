@@ -14,7 +14,7 @@ Jasper Studio:
   * **Name**: Wastedge Update Site;
   * **Location**: https://raw.githubusercontent.com/wastedge/wastedge-jasper/master/WastedgeJasperUpdateSite/;
 * Click **OK**;
-* The available plugins will now load. Expand the category and check the checkbox
+* The available plugins will now load. Expand the Wastedge category and check the checkbox
   before **Wastedge Jasper Plugin**;
 * Click **Next >**;
 * Click **Next >**;
