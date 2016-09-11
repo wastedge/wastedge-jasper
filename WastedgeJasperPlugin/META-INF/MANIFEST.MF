@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: WastedgePlugin
+Bundle-Name: Wastedge Jasper Plugin
 Bundle-SymbolicName: com.wastedge.api.jasper;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.wastedge.api.jasper.Activator

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="wastedge-api-jasper-feature"
+      label="Wastedge Jasper Plugin"
+      version="1.0.0.qualifier"
+      provider-name="Wastedge.com">
+
+   <description url="http://www.example.com/description">
+      Wastedge Jasper Plugin
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      Wastedge.com
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      Apache License Version 2.0, January 2004
+   </license>
+
+   <plugin
+         id="com.wastedge.api.jasper"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
