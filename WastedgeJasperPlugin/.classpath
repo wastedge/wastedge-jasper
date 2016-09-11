@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="lib/wastedge-api-jdbc-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/jasperreports-6.3.0.jar"/>
 	<classpathentry kind="lib" path="lib/wastedge-api-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/wastedge-api-jasper-adapter-1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

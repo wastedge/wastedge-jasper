@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>com.wastedge.api</groupId>
+	<artifactId>wastedge-api-jasper-adapter</artifactId>
+	<version>1.0</version>
+	
+	<packaging>jar</packaging>
+	
+	<name>wastedge-api-jasper-adapter</name>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<wastedge-api.version>1.0</wastedge-api.version>
+		<jasper.version>6.3.0</jasper.version>
+	</properties>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.wastedge.api</groupId>
+			<artifactId>wastedge-api</artifactId>
+			<version>${wastedge-api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.wastedge.api</groupId>
+			<artifactId>wastedge-api-jdbc</artifactId>
+			<version>${wastedge-api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>${jasper.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-1.2-api</artifactId>
+			<version>2.5</version>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

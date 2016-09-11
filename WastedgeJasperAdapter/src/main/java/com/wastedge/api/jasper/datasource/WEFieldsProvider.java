@@ -18,7 +18,6 @@ import net.sf.jasperreports.engine.design.JRDesignField;
 
 import org.apache.log4j.Logger;
 
-import com.jaspersoft.studio.utils.parameter.SimpleValueParameter;
 import com.wastedge.api.jasper.connection.WEConnection;
 import com.wastedge.api.jasper.query.WEQueryExecuter;
 
