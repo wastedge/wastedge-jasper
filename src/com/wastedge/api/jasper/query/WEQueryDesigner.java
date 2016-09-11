@@ -8,6 +8,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 import com.jaspersoft.studio.data.designer.QueryDesigner;
+import com.jaspersoft.studio.data.querydesigner.sql.text.SQLLineStyler;
 import com.jaspersoft.studio.wizards.ContextHelpIDs;
 
 public class WEQueryDesigner extends QueryDesigner {
@@ -18,6 +19,7 @@ public class WEQueryDesigner extends QueryDesigner {
 
 	public Control createControl(Composite parent) {
 		control = (StyledText)super.createControl(parent);
+		control.addLineStyleListener(new SQLLineStyler());
 		return control;
 	}
 
