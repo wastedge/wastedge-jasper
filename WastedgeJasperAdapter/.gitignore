@@ -1,6 +1,6 @@
-/target/
-.classpath
-.project
-.idea
-.settings
-jr-es-adapter.iml
+/store
+/out
+/.idea
+/*.iws
+/target
+/*.iml
